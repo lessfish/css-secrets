@@ -16,7 +16,7 @@ let res = []
 fs.readdir('./', (err, files) => {
   // 遍历章
   files.forEach(file => {
-    if (file === 'node_modules') return
+    if (file === 'node_modules' || file === '.git') return
     let chapter = {}
     chapter.chapterName = file 
     chapter.sections = []
@@ -51,8 +51,8 @@ setTimeout(() => {
   res.sort((a, b) => a.chapterName > b.chapterName)
   
   let markdownStr = ''
-  let urlPrefix = `//hanzichi.github.io/css-secret/`
-  markdownStr += `# CSS SECRET\n\n`
+  let urlPrefix = `//hanzichi.github.io/css-secrets/`
+  markdownStr += `# CSS SECRETS\n\n`
 
   res.forEach(chapter => {
     let {chapterName, sections} = chapter

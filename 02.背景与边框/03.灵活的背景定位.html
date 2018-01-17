@@ -61,6 +61,8 @@
 
   <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
   <link href="https://cdn.bootcss.com/highlight.js/9.10.0/styles/monokai-sublime.min.css" rel="stylesheet">
+  <!-- 这个 css 没有用到，需要在包裹元素中加上 .markdown-body 才能 work，但是用到代码上的样式会和 ace 的样式冲突 -->
+  <link href="https://cdn.bootcss.com/github-markdown-css/2.9.0/github-markdown.min.css" rel="stylesheet">
   <script>hljs.initHighlightingOnLoad();</script>
   <h2 id="-">难题</h2>
 <p>很多时候，我们想针对容器某个角对背景图片做偏移定位，如右下角。在 CSS 2.1 中，<strong>我们只能指定距离左上角的偏移量</strong>，或者干脆完全靠齐到其他三个角。但是，我们有时希望图片和容器的边角之间能留出一定的空隙（类似内边距的效果）。</p>
