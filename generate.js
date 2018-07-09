@@ -5,26 +5,36 @@
 // todo
 // codedog 作为依赖
 // 应该有一个命令是 ./node_modules/bin/xxx 的缩写，记不起来了
-// 实现不优雅，应该用类似 Promise.all 去实现
 
 const shell = require('shelljs')
 const fs = require('fs')
 const path = require('path')
 
-let res = []
+function readRootDir() {
+  return new Promise(resolve => {
+    fs.readdir('./', (err, files) => {
+      resolve(files)
+    })
+  })
+}
 
-fs.readdir('./', (err, files) => {
+function getPromiseArr(files) {
+  const promiseArr = []
+
   // 遍历章
   files.forEach(file => {
+    // 排除 node_modules 和 .git 两个文件夹的干扰
     if (file === 'node_modules' || file === '.git') return
-    let chapter = {}
-    chapter.chapterName = file 
-    chapter.sections = []
-
     let path1 = path.join(__dirname, file)
-
-    fs.stat(path1, (err, stats) => {
-      if (!stats.isDirectory()) return
+    let stats = fs.statSync(path1)
+    // 排除类似 generate.js package.json 等文件的干扰
+    if (!stats.isDirectory()) return 
+    
+    promiseArr.push(new Promise(resolve => {
+      const chapter = {
+        chapterName: file,
+        sections: []
+      }
 
       fs.readdir(path1, (err, files) => {
         // 遍历节
@@ -33,6 +43,7 @@ fs.readdir('./', (err, files) => {
           chapter.sections.push(file)
 
           let path2 = path.join(path1, file)
+
           // 空格转义
           path2 = path2.replace(/ /g, a => {
             return '\\' + a;
@@ -41,13 +52,15 @@ fs.readdir('./', (err, files) => {
           shell.exec(`codedog ${path2}`)
         })
 
-        res.push(chapter)
+        resolve(chapter)
       })
-    })
+    }))
   })
-})
 
-setTimeout(() => {
+  return promiseArr
+}
+
+function generateMarkdown(res) {
   res.sort((a, b) => a.chapterName > b.chapterName)
   
   let markdownStr = ''
@@ -72,4 +85,13 @@ setTimeout(() => {
   fs.writeFile('README.md', markdownStr, () => {
     console.log('saved!')
   })
-}, 6000)
+}
+
+(async function() {
+  const files = await readRootDir()
+  const promiseArr = getPromiseArr(files)
+
+  Promise.all(promiseArr).then(res => {
+    generateMarkdown(res)
+  }).catch((err) => {console.log(err)})
+})()
