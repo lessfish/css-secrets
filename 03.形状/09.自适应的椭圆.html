@@ -1,7 +1,14 @@
-
-  <style type="text/css" media="screen">
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/> -->
+  <title></title>
+  <link href="//cdn.bootcss.com/highlight.js/9.10.0/styles/monokai-sublime.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/github-markdown-css/2.9.0/github-markdown.min.css" rel="stylesheet">
+  <script src="//cdn.bootcss.com/ace/1.3.3/ace.js"></script>
+  <style type="text/css">
     .codedog {
-      width: 900px;
+      
       height: 300px;
       margin-bottom: 16px;
     }
@@ -37,11 +44,12 @@
       height: 100%;
     }
 
-    /* 解决 github-markdown.css 和 highlights 引入的 css 的样式冲突问题 */
-    /* https://github.com/sindresorhus/github-markdown-css/issues/52 */
-    /* overwrite */
+    /* 解决 github-markdown.css 和 highlights 引入的 css 的样式冲突问题 
+       https://github.com/sindresorhus/github-markdown-css/issues/52
+       overwrite it
+    */
     .hljs {
-      width: 900px;
+      
       background-color: #23241f !important;
       display: block !important;
       padding: 10px !important;
@@ -67,56 +75,30 @@
       background: #e2e2e2;
     }
   </style>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.8/ace.js" type="text/javascript" charset="utf-8"></script>
-  <script>
-  function runCode(editorId) {
-    let code = ace.edit(editorId).getValue()
-    let handler = window.open('')
-    handler.opener = null
-    handler.document.write(code)
-    handler.document.close()
-  }
-
-  document.onclick = e => {
-    let target = e.target
-    if (target.className !== 'btn-new-page') 
-      return
-
-    runCode(target.parentNode.nextElementSibling.children[0])
-  }
-  </script>
-
-  <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
-  <link href="https://cdn.bootcss.com/highlight.js/9.10.0/styles/monokai-sublime.min.css" rel="stylesheet">
-  <!-- 这个 css 没有用到，需要在包裹元素中加上 .markdown-body 才能 work，但是貌似 github-markdown 应用于 pre code 的样式会和 highlights 的 css 冲突
-  所以我不是很明白应用 github-markdown 后如何渲染代码块 -->
-  <link href="https://cdn.bootcss.com/github-markdown-css/2.9.0/github-markdown.min.css" rel="stylesheet">
-  <script>
-    hljs.initHighlightingOnLoad();
-  </script>
-  <div class="markdown-body"><h2 id="-">椭圆</h2>
+</head>
+<body>
+<div class="markdown-body"><h2 id="-">椭圆</h2>
 <p>给元素设置相同宽高以及一半长度的 border-radius，可以得到一个圆形。</p>
 <p>我们期望能达到这个效果：宽高相等，显示为一个圆；宽高不等，显示一个椭圆。</p>
 <p>说到 border-radius，有一个鲜为人知的真相：他可以 <strong>单独指定水平和垂直半径</strong>，只要用一个斜杠 <code>/</code> 分割这两个值即可。</p>
-
-  <div class="codedog" id="codedog0">
-    <div class="codedog-nav">
-      <button class="btn-new-page">新页面打开</button>
-    </div>
-    <div class="codedog-main">
-      <div id="editor0" class="codedog-editor"></div>
-      <div class="result">
-        <iframe class="preview" frameborder=0></iframe>
-      </div>
+<div class="codedog" id="codedog0">
+  <div class="codedog-nav">
+    <button class="btn-new-page">新页面打开</button>
+  </div>
+  <div class="codedog-main">
+    <div id="editor0" class="codedog-editor"></div>
+    <div class="result">
+      <iframe class="preview" frameborder=0></iframe>
     </div>
   </div>
-  <script>
-    let editor0 = ace.edit("editor0")
-    editor0.$blockScrolling = 1
-    editor0.setTheme("ace/theme/monokai")
-    editor0.getSession().setMode("ace/mode/html")
-    editor0.getSession().setTabSize(2)
-    editor0.getSession().setValue(`<style>
+</div>
+<script>
+  let editor0 = ace.edit("editor0")
+  editor0.$blockScrolling = 1
+  editor0.setTheme("ace/theme/monokai")
+  editor0.getSession().setMode("ace/mode/html")
+  editor0.getSession().setTabSize(2)
+  editor0.getSession().setValue(`<style>
   .myDiv {
     width: 150px;
     height: 200px;
@@ -126,8 +108,8 @@
 </style>
 <div class="myDiv"></div>`)
 
-    let iframe0 = document.querySelector("#codedog0 .preview");
-    iframe0.srcdoc = `<style>
+  let iframe0 = document.querySelector("#codedog0 .preview");
+  iframe0.srcdoc = `<style>
   .myDiv {
     width: 150px;
     height: 200px;
@@ -137,11 +119,10 @@
 </style>
 <div class="myDiv"></div>`
 
-    editor0.getSession().on('change', () => {
-      iframe0.srcdoc =  editor0.getValue()
-    });
-  </script>
-  
+  editor0.getSession().on('change', () => {
+    iframe0.srcdoc =  editor0.getValue()
+  })
+</script>
 <h2 id="-">半椭圆</h2>
 <p>border-radius 对应的各个展开式属性（如果要对其分别设置水平和垂直半径，不需要用 <code>/</code>，空格即可）：</p>
 <ul>
@@ -151,25 +132,24 @@
 <li>border-bottom-left-radius</li>
 </ul>
 <p>真正简洁的方法还是使用 border-radius 这个简写属性，我们可以向它一次性提供用空格分开的多个值。当 border-radius 的值为 10px / 5px 20px 时，其效果相当于 10px 10px 10px 10px / 5px 20px 5px 20px。</p>
-
-  <div class="codedog" id="codedog1">
-    <div class="codedog-nav">
-      <button class="btn-new-page">新页面打开</button>
-    </div>
-    <div class="codedog-main">
-      <div id="editor1" class="codedog-editor"></div>
-      <div class="result">
-        <iframe class="preview" frameborder=0></iframe>
-      </div>
+<div class="codedog" id="codedog1">
+  <div class="codedog-nav">
+    <button class="btn-new-page">新页面打开</button>
+  </div>
+  <div class="codedog-main">
+    <div id="editor1" class="codedog-editor"></div>
+    <div class="result">
+      <iframe class="preview" frameborder=0></iframe>
     </div>
   </div>
-  <script>
-    let editor1 = ace.edit("editor1")
-    editor1.$blockScrolling = 1
-    editor1.setTheme("ace/theme/monokai")
-    editor1.getSession().setMode("ace/mode/html")
-    editor1.getSession().setTabSize(2)
-    editor1.getSession().setValue(`<style>
+</div>
+<script>
+  let editor1 = ace.edit("editor1")
+  editor1.$blockScrolling = 1
+  editor1.setTheme("ace/theme/monokai")
+  editor1.getSession().setMode("ace/mode/html")
+  editor1.getSession().setTabSize(2)
+  editor1.getSession().setValue(`<style>
   .myDiv {
     width: 150px;
     height: 200px;
@@ -179,8 +159,8 @@
 </style>
 <div class="myDiv"></div>`)
 
-    let iframe1 = document.querySelector("#codedog1 .preview");
-    iframe1.srcdoc = `<style>
+  let iframe1 = document.querySelector("#codedog1 .preview");
+  iframe1.srcdoc = `<style>
   .myDiv {
     width: 150px;
     height: 200px;
@@ -190,32 +170,30 @@
 </style>
 <div class="myDiv"></div>`
 
-    editor1.getSession().on('change', () => {
-      iframe1.srcdoc =  editor1.getValue()
-    });
-  </script>
-  
+  editor1.getSession().on('change', () => {
+    iframe1.srcdoc =  editor1.getValue()
+  })
+</script>
 <h2 id="-">四分之一椭圆</h2>
 <p>要创建一个四分之一椭圆，<strong>其中一个角的水平和垂直半径值都需要是 100%，而其他三个角都不能设为圆角</strong>。</p>
-
-  <div class="codedog" id="codedog2">
-    <div class="codedog-nav">
-      <button class="btn-new-page">新页面打开</button>
-    </div>
-    <div class="codedog-main">
-      <div id="editor2" class="codedog-editor"></div>
-      <div class="result">
-        <iframe class="preview" frameborder=0></iframe>
-      </div>
+<div class="codedog" id="codedog2">
+  <div class="codedog-nav">
+    <button class="btn-new-page">新页面打开</button>
+  </div>
+  <div class="codedog-main">
+    <div id="editor2" class="codedog-editor"></div>
+    <div class="result">
+      <iframe class="preview" frameborder=0></iframe>
     </div>
   </div>
-  <script>
-    let editor2 = ace.edit("editor2")
-    editor2.$blockScrolling = 1
-    editor2.setTheme("ace/theme/monokai")
-    editor2.getSession().setMode("ace/mode/html")
-    editor2.getSession().setTabSize(2)
-    editor2.getSession().setValue(`<style>
+</div>
+<script>
+  let editor2 = ace.edit("editor2")
+  editor2.$blockScrolling = 1
+  editor2.setTheme("ace/theme/monokai")
+  editor2.getSession().setMode("ace/mode/html")
+  editor2.getSession().setTabSize(2)
+  editor2.getSession().setValue(`<style>
   .myDiv {
     width: 150px;
     height: 200px;
@@ -229,8 +207,8 @@
 </style>
 <div class="myDiv"></div>`)
 
-    let iframe2 = document.querySelector("#codedog2 .preview");
-    iframe2.srcdoc = `<style>
+  let iframe2 = document.querySelector("#codedog2 .preview");
+  iframe2.srcdoc = `<style>
   .myDiv {
     width: 150px;
     height: 200px;
@@ -244,9 +222,30 @@
 </style>
 <div class="myDiv"></div>`
 
-    editor2.getSession().on('change', () => {
-      iframe2.srcdoc =  editor2.getValue()
-    });
-  </script>
-  
+  editor2.getSession().on('change', () => {
+    iframe2.srcdoc =  editor2.getValue()
+  })
+</script>
 </div>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<script>
+function runCode(editorId) {
+  let code = ace.edit(editorId).getValue()
+  let handler = window.open('')
+  handler.opener = null
+  handler.document.write(code)
+  handler.document.close()
+}
+
+document.onclick = e => {
+  let target = e.target
+  if (target.className !== 'btn-new-page') 
+    return
+
+  runCode(target.parentNode.nextElementSibling.children[0])
+}
+
+hljs.initHighlightingOnLoad()
+</script>
+</body>
+</html>

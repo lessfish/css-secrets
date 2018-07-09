@@ -1,7 +1,14 @@
-
-  <style type="text/css" media="screen">
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/> -->
+  <title></title>
+  <link href="//cdn.bootcss.com/highlight.js/9.10.0/styles/monokai-sublime.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/github-markdown-css/2.9.0/github-markdown.min.css" rel="stylesheet">
+  <script src="//cdn.bootcss.com/ace/1.3.3/ace.js"></script>
+  <style type="text/css">
     .codedog {
-      width: 900px;
+      
       height: 300px;
       margin-bottom: 16px;
     }
@@ -37,11 +44,12 @@
       height: 100%;
     }
 
-    /* 解决 github-markdown.css 和 highlights 引入的 css 的样式冲突问题 */
-    /* https://github.com/sindresorhus/github-markdown-css/issues/52 */
-    /* overwrite */
+    /* 解决 github-markdown.css 和 highlights 引入的 css 的样式冲突问题 
+       https://github.com/sindresorhus/github-markdown-css/issues/52
+       overwrite it
+    */
     .hljs {
-      width: 900px;
+      
       background-color: #23241f !important;
       display: block !important;
       padding: 10px !important;
@@ -67,220 +75,213 @@
       background: #e2e2e2;
     }
   </style>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.8/ace.js" type="text/javascript" charset="utf-8"></script>
-  <script>
-  function runCode(editorId) {
-    let code = ace.edit(editorId).getValue()
-    let handler = window.open('')
-    handler.opener = null
-    handler.document.write(code)
-    handler.document.close()
-  }
-
-  document.onclick = e => {
-    let target = e.target
-    if (target.className !== 'btn-new-page') 
-      return
-
-    runCode(target.parentNode.nextElementSibling.children[0])
-  }
-  </script>
-
-  <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
-  <link href="https://cdn.bootcss.com/highlight.js/9.10.0/styles/monokai-sublime.min.css" rel="stylesheet">
-  <!-- 这个 css 没有用到，需要在包裹元素中加上 .markdown-body 才能 work，但是貌似 github-markdown 应用于 pre code 的样式会和 highlights 的 css 冲突
-  所以我不是很明白应用 github-markdown 后如何渲染代码块 -->
-  <link href="https://cdn.bootcss.com/github-markdown-css/2.9.0/github-markdown.min.css" rel="stylesheet">
-  <script>
-    hljs.initHighlightingOnLoad();
-  </script>
-  <div class="markdown-body"><h2 id="-">自定义复选框</h2>
+</head>
+<body>
+<div class="markdown-body"><h2 id="-">自定义复选框</h2>
 <p>当 <code>&lt;lable&gt;</code> 元素与复选框关联之后，可以起到触发开关的作用。</p>
-
-  <div class="codedog" id="codedog0">
-    <div class="codedog-nav">
-      <button class="btn-new-page">新页面打开</button>
-    </div>
-    <div class="codedog-main">
-      <div id="editor0" class="codedog-editor"></div>
-      <div class="result">
-        <iframe class="preview" frameborder=0></iframe>
-      </div>
+<div class="codedog" id="codedog0">
+  <div class="codedog-nav">
+    <button class="btn-new-page">新页面打开</button>
+  </div>
+  <div class="codedog-main">
+    <div id="editor0" class="codedog-editor"></div>
+    <div class="result">
+      <iframe class="preview" frameborder=0></iframe>
     </div>
   </div>
-  <script>
-    let editor0 = ace.edit("editor0")
-    editor0.$blockScrolling = 1
-    editor0.setTheme("ace/theme/monokai")
-    editor0.getSession().setMode("ace/mode/html")
-    editor0.getSession().setTabSize(2)
-    editor0.getSession().setValue(`<body>
-<style>
-  input[type="checkbox"] + label::before {
-    content: '\\a0'; /*不换行空格*/
-    display: inline-block;
-    width: .8em;
-    height: .8em;
-    margin-right: .2em;
-    border-radius: .2em;
-    background: silver;  
-    text-indent: .15em;
-    line-height: .65;
-  }
-
-  input[type="checkbox"]:checked + label::before {
-    content: '\\2713';
-    background: yellowgreen;
-  } 
-
-  input[type="checkbox"]:focus + label::before {
-    box-shadow: 0 0 .1em .1em #58a;
-  } 
-
-  input[type="checkbox"]:disabled + label::before {
-    background: gray; 
-    box-shadow: none; 
-    color: #555;
-  }
-
-  /*隐藏真实的 checkbox*/
-  input[type="checkbox"] {  
-    position: absolute;
-    clip: rect(0, 0, 0, 0);
-  }
-</style>  
-<input type="checkbox" id="awesome" />
-<label for="awesome">Awesome!</label>
-</body>`)
-
-    let iframe0 = document.querySelector("#codedog0 .preview");
-    iframe0.srcdoc = `<body>
-<style>
-  input[type="checkbox"] + label::before {
-    content: '\\a0'; /*不换行空格*/
-    display: inline-block;
-    width: .8em;
-    height: .8em;
-    margin-right: .2em;
-    border-radius: .2em;
-    background: silver;  
-    text-indent: .15em;
-    line-height: .65;
-  }
-
-  input[type="checkbox"]:checked + label::before {
-    content: '\\2713';
-    background: yellowgreen;
-  } 
-
-  input[type="checkbox"]:focus + label::before {
-    box-shadow: 0 0 .1em .1em #58a;
-  } 
-
-  input[type="checkbox"]:disabled + label::before {
-    background: gray; 
-    box-shadow: none; 
-    color: #555;
-  }
-
-  /*隐藏真实的 checkbox*/
-  input[type="checkbox"] {  
-    position: absolute;
-    clip: rect(0, 0, 0, 0);
-  }
-</style>  
-<input type="checkbox" id="awesome" />
-<label for="awesome">Awesome!</label>
-</body>`
-
-    editor0.getSession().on('change', () => {
-      iframe0.srcdoc =  editor0.getValue()
-    });
-  </script>
-  
-<h2 id="-">开关式按钮</h2>
-
-  <div class="codedog" id="codedog1">
-    <div class="codedog-nav">
-      <button class="btn-new-page">新页面打开</button>
-    </div>
-    <div class="codedog-main">
-      <div id="editor1" class="codedog-editor"></div>
-      <div class="result">
-        <iframe class="preview" frameborder=0></iframe>
-      </div>
-    </div>
-  </div>
-  <script>
-    let editor1 = ace.edit("editor1")
-    editor1.$blockScrolling = 1
-    editor1.setTheme("ace/theme/monokai")
-    editor1.getSession().setMode("ace/mode/html")
-    editor1.getSession().setTabSize(2)
-    editor1.getSession().setValue(`<body>
-<style>
-  input[type="checkbox"] {
-    position: absolute; 
-    clip: rect(0, 0, 0, 0);
-  }
-
-  input[type="checkbox"] + label {
-    display: inline-block;
-    padding: .3em .5em;
-    background: #ccc;
-    background-image: linear-gradient(#ddd, #bbb);
-    border: 1px solid rgba(0, 0, 0, .2);
-    border-radius: .3em;
-    box-shadow: 0 1px white inset;
-    text-align: center; 
-    text-shadow: 0 1px 1px white;
-  }
-
-  input[type="checkbox"]:checked + label, 
-  input[type="checkbox"]:active + label {
-    box-shadow: .05em .1em .2em rgba(0, 0, 0, .6) inset;
-    border-color: rbga(0, 0, 0, .3);
-    background: #bbb;
-  }
-</style>  
-<input type="checkbox" id="awesome" />
-<label for="awesome">Awesome!</label>
-</body>`)
-
-    let iframe1 = document.querySelector("#codedog1 .preview");
-    iframe1.srcdoc = `<body>
-<style>
-  input[type="checkbox"] {
-    position: absolute; 
-    clip: rect(0, 0, 0, 0);
-  }
-
-  input[type="checkbox"] + label {
-    display: inline-block;
-    padding: .3em .5em;
-    background: #ccc;
-    background-image: linear-gradient(#ddd, #bbb);
-    border: 1px solid rgba(0, 0, 0, .2);
-    border-radius: .3em;
-    box-shadow: 0 1px white inset;
-    text-align: center; 
-    text-shadow: 0 1px 1px white;
-  }
-
-  input[type="checkbox"]:checked + label, 
-  input[type="checkbox"]:active + label {
-    box-shadow: .05em .1em .2em rgba(0, 0, 0, .6) inset;
-    border-color: rbga(0, 0, 0, .3);
-    background: #bbb;
-  }
-</style>  
-<input type="checkbox" id="awesome" />
-<label for="awesome">Awesome!</label>
-</body>`
-
-    editor1.getSession().on('change', () => {
-      iframe1.srcdoc =  editor1.getValue()
-    });
-  </script>
-  
 </div>
+<script>
+  let editor0 = ace.edit("editor0")
+  editor0.$blockScrolling = 1
+  editor0.setTheme("ace/theme/monokai")
+  editor0.getSession().setMode("ace/mode/html")
+  editor0.getSession().setTabSize(2)
+  editor0.getSession().setValue(`<body>
+<style>
+  input[type="checkbox"] + label::before {
+    content: '\\a0'; /*不换行空格*/
+    display: inline-block;
+    width: .8em;
+    height: .8em;
+    margin-right: .2em;
+    border-radius: .2em;
+    background: silver;  
+    text-indent: .15em;
+    line-height: .65;
+  }
+
+  input[type="checkbox"]:checked + label::before {
+    content: '\\2713';
+    background: yellowgreen;
+  } 
+
+  input[type="checkbox"]:focus + label::before {
+    box-shadow: 0 0 .1em .1em #58a;
+  } 
+
+  input[type="checkbox"]:disabled + label::before {
+    background: gray; 
+    box-shadow: none; 
+    color: #555;
+  }
+
+  /*隐藏真实的 checkbox*/
+  input[type="checkbox"] {  
+    position: absolute;
+    clip: rect(0, 0, 0, 0);
+  }
+</style>  
+<input type="checkbox" id="awesome" />
+<label for="awesome">Awesome!</label>
+</body>`)
+
+  let iframe0 = document.querySelector("#codedog0 .preview");
+  iframe0.srcdoc = `<body>
+<style>
+  input[type="checkbox"] + label::before {
+    content: '\\a0'; /*不换行空格*/
+    display: inline-block;
+    width: .8em;
+    height: .8em;
+    margin-right: .2em;
+    border-radius: .2em;
+    background: silver;  
+    text-indent: .15em;
+    line-height: .65;
+  }
+
+  input[type="checkbox"]:checked + label::before {
+    content: '\\2713';
+    background: yellowgreen;
+  } 
+
+  input[type="checkbox"]:focus + label::before {
+    box-shadow: 0 0 .1em .1em #58a;
+  } 
+
+  input[type="checkbox"]:disabled + label::before {
+    background: gray; 
+    box-shadow: none; 
+    color: #555;
+  }
+
+  /*隐藏真实的 checkbox*/
+  input[type="checkbox"] {  
+    position: absolute;
+    clip: rect(0, 0, 0, 0);
+  }
+</style>  
+<input type="checkbox" id="awesome" />
+<label for="awesome">Awesome!</label>
+</body>`
+
+  editor0.getSession().on('change', () => {
+    iframe0.srcdoc =  editor0.getValue()
+  })
+</script>
+<h2 id="-">开关式按钮</h2>
+<div class="codedog" id="codedog1">
+  <div class="codedog-nav">
+    <button class="btn-new-page">新页面打开</button>
+  </div>
+  <div class="codedog-main">
+    <div id="editor1" class="codedog-editor"></div>
+    <div class="result">
+      <iframe class="preview" frameborder=0></iframe>
+    </div>
+  </div>
+</div>
+<script>
+  let editor1 = ace.edit("editor1")
+  editor1.$blockScrolling = 1
+  editor1.setTheme("ace/theme/monokai")
+  editor1.getSession().setMode("ace/mode/html")
+  editor1.getSession().setTabSize(2)
+  editor1.getSession().setValue(`<body>
+<style>
+  input[type="checkbox"] {
+    position: absolute; 
+    clip: rect(0, 0, 0, 0);
+  }
+
+  input[type="checkbox"] + label {
+    display: inline-block;
+    padding: .3em .5em;
+    background: #ccc;
+    background-image: linear-gradient(#ddd, #bbb);
+    border: 1px solid rgba(0, 0, 0, .2);
+    border-radius: .3em;
+    box-shadow: 0 1px white inset;
+    text-align: center; 
+    text-shadow: 0 1px 1px white;
+  }
+
+  input[type="checkbox"]:checked + label, 
+  input[type="checkbox"]:active + label {
+    box-shadow: .05em .1em .2em rgba(0, 0, 0, .6) inset;
+    border-color: rbga(0, 0, 0, .3);
+    background: #bbb;
+  }
+</style>  
+<input type="checkbox" id="awesome" />
+<label for="awesome">Awesome!</label>
+</body>`)
+
+  let iframe1 = document.querySelector("#codedog1 .preview");
+  iframe1.srcdoc = `<body>
+<style>
+  input[type="checkbox"] {
+    position: absolute; 
+    clip: rect(0, 0, 0, 0);
+  }
+
+  input[type="checkbox"] + label {
+    display: inline-block;
+    padding: .3em .5em;
+    background: #ccc;
+    background-image: linear-gradient(#ddd, #bbb);
+    border: 1px solid rgba(0, 0, 0, .2);
+    border-radius: .3em;
+    box-shadow: 0 1px white inset;
+    text-align: center; 
+    text-shadow: 0 1px 1px white;
+  }
+
+  input[type="checkbox"]:checked + label, 
+  input[type="checkbox"]:active + label {
+    box-shadow: .05em .1em .2em rgba(0, 0, 0, .6) inset;
+    border-color: rbga(0, 0, 0, .3);
+    background: #bbb;
+  }
+</style>  
+<input type="checkbox" id="awesome" />
+<label for="awesome">Awesome!</label>
+</body>`
+
+  editor1.getSession().on('change', () => {
+    iframe1.srcdoc =  editor1.getValue()
+  })
+</script>
+</div>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<script>
+function runCode(editorId) {
+  let code = ace.edit(editorId).getValue()
+  let handler = window.open('')
+  handler.opener = null
+  handler.document.write(code)
+  handler.document.close()
+}
+
+document.onclick = e => {
+  let target = e.target
+  if (target.className !== 'btn-new-page') 
+    return
+
+  runCode(target.parentNode.nextElementSibling.children[0])
+}
+
+hljs.initHighlightingOnLoad()
+</script>
+</body>
+</html>

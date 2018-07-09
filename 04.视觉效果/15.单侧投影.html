@@ -1,7 +1,14 @@
-
-  <style type="text/css" media="screen">
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/> -->
+  <title></title>
+  <link href="//cdn.bootcss.com/highlight.js/9.10.0/styles/monokai-sublime.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/github-markdown-css/2.9.0/github-markdown.min.css" rel="stylesheet">
+  <script src="//cdn.bootcss.com/ace/1.3.3/ace.js"></script>
+  <style type="text/css">
     .codedog {
-      width: 900px;
+      
       height: 300px;
       margin-bottom: 16px;
     }
@@ -37,11 +44,12 @@
       height: 100%;
     }
 
-    /* 解决 github-markdown.css 和 highlights 引入的 css 的样式冲突问题 */
-    /* https://github.com/sindresorhus/github-markdown-css/issues/52 */
-    /* overwrite */
+    /* 解决 github-markdown.css 和 highlights 引入的 css 的样式冲突问题 
+       https://github.com/sindresorhus/github-markdown-css/issues/52
+       overwrite it
+    */
     .hljs {
-      width: 900px;
+      
       background-color: #23241f !important;
       display: block !important;
       padding: 10px !important;
@@ -67,54 +75,28 @@
       background: #e2e2e2;
     }
   </style>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.8/ace.js" type="text/javascript" charset="utf-8"></script>
-  <script>
-  function runCode(editorId) {
-    let code = ace.edit(editorId).getValue()
-    let handler = window.open('')
-    handler.opener = null
-    handler.document.write(code)
-    handler.document.close()
-  }
-
-  document.onclick = e => {
-    let target = e.target
-    if (target.className !== 'btn-new-page') 
-      return
-
-    runCode(target.parentNode.nextElementSibling.children[0])
-  }
-  </script>
-
-  <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
-  <link href="https://cdn.bootcss.com/highlight.js/9.10.0/styles/monokai-sublime.min.css" rel="stylesheet">
-  <!-- 这个 css 没有用到，需要在包裹元素中加上 .markdown-body 才能 work，但是貌似 github-markdown 应用于 pre code 的样式会和 highlights 的 css 冲突
-  所以我不是很明白应用 github-markdown 后如何渲染代码块 -->
-  <link href="https://cdn.bootcss.com/github-markdown-css/2.9.0/github-markdown.min.css" rel="stylesheet">
-  <script>
-    hljs.initHighlightingOnLoad();
-  </script>
-  <div class="markdown-body"><h2 id="box-shadow">box-shadow</h2>
+</head>
+<body>
+<div class="markdown-body"><h2 id="box-shadow">box-shadow</h2>
 <p>很多人使用 box-shadow 的方法是，指定三个长度值和一个颜色值。</p>
-
-  <div class="codedog" id="codedog0">
-    <div class="codedog-nav">
-      <button class="btn-new-page">新页面打开</button>
-    </div>
-    <div class="codedog-main">
-      <div id="editor0" class="codedog-editor"></div>
-      <div class="result">
-        <iframe class="preview" frameborder=0></iframe>
-      </div>
+<div class="codedog" id="codedog0">
+  <div class="codedog-nav">
+    <button class="btn-new-page">新页面打开</button>
+  </div>
+  <div class="codedog-main">
+    <div id="editor0" class="codedog-editor"></div>
+    <div class="result">
+      <iframe class="preview" frameborder=0></iframe>
     </div>
   </div>
-  <script>
-    let editor0 = ace.edit("editor0")
-    editor0.$blockScrolling = 1
-    editor0.setTheme("ace/theme/monokai")
-    editor0.getSession().setMode("ace/mode/html")
-    editor0.getSession().setTabSize(2)
-    editor0.getSession().setValue(`<body>
+</div>
+<script>
+  let editor0 = ace.edit("editor0")
+  editor0.$blockScrolling = 1
+  editor0.setTheme("ace/theme/monokai")
+  editor0.getSession().setMode("ace/mode/html")
+  editor0.getSession().setTabSize(2)
+  editor0.getSession().setValue(`<body>
 <style>
   .myDiv {
     width: 100px;
@@ -126,8 +108,8 @@
 <div class="myDiv"></div>
 </body>`)
 
-    let iframe0 = document.querySelector("#codedog0 .preview");
-    iframe0.srcdoc = `<body>
+  let iframe0 = document.querySelector("#codedog0 .preview");
+  iframe0.srcdoc = `<body>
 <style>
   .myDiv {
     width: 100px;
@@ -139,11 +121,10 @@
 <div class="myDiv"></div>
 </body>`
 
-    editor0.getSession().on('change', () => {
-      iframe0.srcdoc =  editor0.getValue()
-    });
-  </script>
-  
+  editor0.getSession().on('change', () => {
+    iframe0.srcdoc =  editor0.getValue()
+  })
+</script>
 <ol>
 <li>以该元素相同的尺寸和位置，画一个背景色为 black 的矩形</li>
 <li>把它向右移 5px，向下移 4px</li>
@@ -154,25 +135,24 @@
 <h2 id="-">单侧投影</h2>
 <p>解决方案来自 box-shadow 鲜为人知的第四个长度参数，称为扩张半径。这个值会根据你指定的值去扩大或（当指定负值）缩小投影的尺寸。</p>
 <p>从逻辑上来讲，如果我们应用一个负的扩张半径，而它的值刚好等于模糊半径，那么投影的尺寸就会和投影所属元素的尺寸完全一致。除非用偏移量来移动它，<strong>否则我们将看不到任何投影</strong>。</p>
-
-  <div class="codedog" id="codedog1">
-    <div class="codedog-nav">
-      <button class="btn-new-page">新页面打开</button>
-    </div>
-    <div class="codedog-main">
-      <div id="editor1" class="codedog-editor"></div>
-      <div class="result">
-        <iframe class="preview" frameborder=0></iframe>
-      </div>
+<div class="codedog" id="codedog1">
+  <div class="codedog-nav">
+    <button class="btn-new-page">新页面打开</button>
+  </div>
+  <div class="codedog-main">
+    <div id="editor1" class="codedog-editor"></div>
+    <div class="result">
+      <iframe class="preview" frameborder=0></iframe>
     </div>
   </div>
-  <script>
-    let editor1 = ace.edit("editor1")
-    editor1.$blockScrolling = 1
-    editor1.setTheme("ace/theme/monokai")
-    editor1.getSession().setMode("ace/mode/html")
-    editor1.getSession().setTabSize(2)
-    editor1.getSession().setValue(`<body>
+</div>
+<script>
+  let editor1 = ace.edit("editor1")
+  editor1.$blockScrolling = 1
+  editor1.setTheme("ace/theme/monokai")
+  editor1.getSession().setMode("ace/mode/html")
+  editor1.getSession().setTabSize(2)
+  editor1.getSession().setValue(`<body>
 <style>
   .base {
     width: 100px;
@@ -193,8 +173,8 @@
 <div class="base myDiv2"></div>
 </body>`)
 
-    let iframe1 = document.querySelector("#codedog1 .preview");
-    iframe1.srcdoc = `<body>
+  let iframe1 = document.querySelector("#codedog1 .preview");
+  iframe1.srcdoc = `<body>
 <style>
   .base {
     width: 100px;
@@ -215,31 +195,29 @@
 <div class="base myDiv2"></div>
 </body>`
 
-    editor1.getSession().on('change', () => {
-      iframe1.srcdoc =  editor1.getValue()
-    });
-  </script>
-  
+  editor1.getSession().on('change', () => {
+    iframe1.srcdoc =  editor1.getValue()
+  })
+</script>
 <p>因此，我们给投影应用一个正的垂直偏移量即可。</p>
-
-  <div class="codedog" id="codedog2">
-    <div class="codedog-nav">
-      <button class="btn-new-page">新页面打开</button>
-    </div>
-    <div class="codedog-main">
-      <div id="editor2" class="codedog-editor"></div>
-      <div class="result">
-        <iframe class="preview" frameborder=0></iframe>
-      </div>
+<div class="codedog" id="codedog2">
+  <div class="codedog-nav">
+    <button class="btn-new-page">新页面打开</button>
+  </div>
+  <div class="codedog-main">
+    <div id="editor2" class="codedog-editor"></div>
+    <div class="result">
+      <iframe class="preview" frameborder=0></iframe>
     </div>
   </div>
-  <script>
-    let editor2 = ace.edit("editor2")
-    editor2.$blockScrolling = 1
-    editor2.setTheme("ace/theme/monokai")
-    editor2.getSession().setMode("ace/mode/html")
-    editor2.getSession().setTabSize(2)
-    editor2.getSession().setValue(`<body>
+</div>
+<script>
+  let editor2 = ace.edit("editor2")
+  editor2.$blockScrolling = 1
+  editor2.setTheme("ace/theme/monokai")
+  editor2.getSession().setMode("ace/mode/html")
+  editor2.getSession().setTabSize(2)
+  editor2.getSession().setValue(`<body>
 <style>
   .base {
     width: 100px;
@@ -254,8 +232,8 @@
 <div class="base myDiv"></div>
 </body>`)
 
-    let iframe2 = document.querySelector("#codedog2 .preview");
-    iframe2.srcdoc = `<body>
+  let iframe2 = document.querySelector("#codedog2 .preview");
+  iframe2.srcdoc = `<body>
 <style>
   .base {
     width: 100px;
@@ -270,32 +248,30 @@
 <div class="base myDiv"></div>
 </body>`
 
-    editor2.getSession().on('change', () => {
-      iframe2.srcdoc =  editor2.getValue()
-    });
-  </script>
-  
+  editor2.getSession().on('change', () => {
+    iframe2.srcdoc =  editor2.getValue()
+  })
+</script>
 <h2 id="-">邻边投影</h2>
 <p>传统的应用 box-shadow 会使得阴影太过浓厚。</p>
-
-  <div class="codedog" id="codedog3">
-    <div class="codedog-nav">
-      <button class="btn-new-page">新页面打开</button>
-    </div>
-    <div class="codedog-main">
-      <div id="editor3" class="codedog-editor"></div>
-      <div class="result">
-        <iframe class="preview" frameborder=0></iframe>
-      </div>
+<div class="codedog" id="codedog3">
+  <div class="codedog-nav">
+    <button class="btn-new-page">新页面打开</button>
+  </div>
+  <div class="codedog-main">
+    <div id="editor3" class="codedog-editor"></div>
+    <div class="result">
+      <iframe class="preview" frameborder=0></iframe>
     </div>
   </div>
-  <script>
-    let editor3 = ace.edit("editor3")
-    editor3.$blockScrolling = 1
-    editor3.setTheme("ace/theme/monokai")
-    editor3.getSession().setMode("ace/mode/html")
-    editor3.getSession().setTabSize(2)
-    editor3.getSession().setValue(`<body>
+</div>
+<script>
+  let editor3 = ace.edit("editor3")
+  editor3.$blockScrolling = 1
+  editor3.setTheme("ace/theme/monokai")
+  editor3.getSession().setMode("ace/mode/html")
+  editor3.getSession().setTabSize(2)
+  editor3.getSession().setValue(`<body>
 <style>
   .base {
     width: 100px;
@@ -310,8 +286,8 @@
 <div class="base myDiv"></div>
 </body>`)
 
-    let iframe3 = document.querySelector("#codedog3 .preview");
-    iframe3.srcdoc = `<body>
+  let iframe3 = document.querySelector("#codedog3 .preview");
+  iframe3.srcdoc = `<body>
 <style>
   .base {
     width: 100px;
@@ -326,31 +302,29 @@
 <div class="base myDiv"></div>
 </body>`
 
-    editor3.getSession().on('change', () => {
-      iframe3.srcdoc =  editor3.getValue()
-    });
-  </script>
-  
+  editor3.getSession().on('change', () => {
+    iframe3.srcdoc =  editor3.getValue()
+  })
+</script>
 <p>我们可以这样做（将扩张半径设置为模糊半径相反值的一半）：</p>
-
-  <div class="codedog" id="codedog4">
-    <div class="codedog-nav">
-      <button class="btn-new-page">新页面打开</button>
-    </div>
-    <div class="codedog-main">
-      <div id="editor4" class="codedog-editor"></div>
-      <div class="result">
-        <iframe class="preview" frameborder=0></iframe>
-      </div>
+<div class="codedog" id="codedog4">
+  <div class="codedog-nav">
+    <button class="btn-new-page">新页面打开</button>
+  </div>
+  <div class="codedog-main">
+    <div id="editor4" class="codedog-editor"></div>
+    <div class="result">
+      <iframe class="preview" frameborder=0></iframe>
     </div>
   </div>
-  <script>
-    let editor4 = ace.edit("editor4")
-    editor4.$blockScrolling = 1
-    editor4.setTheme("ace/theme/monokai")
-    editor4.getSession().setMode("ace/mode/html")
-    editor4.getSession().setTabSize(2)
-    editor4.getSession().setValue(`<body>
+</div>
+<script>
+  let editor4 = ace.edit("editor4")
+  editor4.$blockScrolling = 1
+  editor4.setTheme("ace/theme/monokai")
+  editor4.getSession().setMode("ace/mode/html")
+  editor4.getSession().setTabSize(2)
+  editor4.getSession().setValue(`<body>
 <style>
   .base {
     width: 100px;
@@ -365,8 +339,8 @@
 <div class="base myDiv"></div>
 </body>`)
 
-    let iframe4 = document.querySelector("#codedog4 .preview");
-    iframe4.srcdoc = `<body>
+  let iframe4 = document.querySelector("#codedog4 .preview");
+  iframe4.srcdoc = `<body>
 <style>
   .base {
     width: 100px;
@@ -381,32 +355,30 @@
 <div class="base myDiv"></div>
 </body>`
 
-    editor4.getSession().on('change', () => {
-      iframe4.srcdoc =  editor4.getValue()
-    });
-  </script>
-  
+  editor4.getSession().on('change', () => {
+    iframe4.srcdoc =  editor4.getValue()
+  })
+</script>
 <h2 id="-">双侧阴影</h2>
 <p>把单侧投影中的技巧应用两次。</p>
-
-  <div class="codedog" id="codedog5">
-    <div class="codedog-nav">
-      <button class="btn-new-page">新页面打开</button>
-    </div>
-    <div class="codedog-main">
-      <div id="editor5" class="codedog-editor"></div>
-      <div class="result">
-        <iframe class="preview" frameborder=0></iframe>
-      </div>
+<div class="codedog" id="codedog5">
+  <div class="codedog-nav">
+    <button class="btn-new-page">新页面打开</button>
+  </div>
+  <div class="codedog-main">
+    <div id="editor5" class="codedog-editor"></div>
+    <div class="result">
+      <iframe class="preview" frameborder=0></iframe>
     </div>
   </div>
-  <script>
-    let editor5 = ace.edit("editor5")
-    editor5.$blockScrolling = 1
-    editor5.setTheme("ace/theme/monokai")
-    editor5.getSession().setMode("ace/mode/html")
-    editor5.getSession().setTabSize(2)
-    editor5.getSession().setValue(`<body>
+</div>
+<script>
+  let editor5 = ace.edit("editor5")
+  editor5.$blockScrolling = 1
+  editor5.setTheme("ace/theme/monokai")
+  editor5.getSession().setMode("ace/mode/html")
+  editor5.getSession().setTabSize(2)
+  editor5.getSession().setValue(`<body>
 <style>
   .base {
     width: 100px;
@@ -422,8 +394,8 @@
 <div class="base myDiv"></div>
 </body>`)
 
-    let iframe5 = document.querySelector("#codedog5 .preview");
-    iframe5.srcdoc = `<body>
+  let iframe5 = document.querySelector("#codedog5 .preview");
+  iframe5.srcdoc = `<body>
 <style>
   .base {
     width: 100px;
@@ -439,9 +411,30 @@
 <div class="base myDiv"></div>
 </body>`
 
-    editor5.getSession().on('change', () => {
-      iframe5.srcdoc =  editor5.getValue()
-    });
-  </script>
-  
+  editor5.getSession().on('change', () => {
+    iframe5.srcdoc =  editor5.getValue()
+  })
+</script>
 </div>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<script>
+function runCode(editorId) {
+  let code = ace.edit(editorId).getValue()
+  let handler = window.open('')
+  handler.opener = null
+  handler.document.write(code)
+  handler.document.close()
+}
+
+document.onclick = e => {
+  let target = e.target
+  if (target.className !== 'btn-new-page') 
+    return
+
+  runCode(target.parentNode.nextElementSibling.children[0])
+}
+
+hljs.initHighlightingOnLoad()
+</script>
+</body>
+</html>

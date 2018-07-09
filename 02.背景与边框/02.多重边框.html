@@ -1,7 +1,14 @@
-
-  <style type="text/css" media="screen">
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/> -->
+  <title></title>
+  <link href="//cdn.bootcss.com/highlight.js/9.10.0/styles/monokai-sublime.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/github-markdown-css/2.9.0/github-markdown.min.css" rel="stylesheet">
+  <script src="//cdn.bootcss.com/ace/1.3.3/ace.js"></script>
+  <style type="text/css">
     .codedog {
-      width: 900px;
+      
       height: 300px;
       margin-bottom: 16px;
     }
@@ -37,11 +44,12 @@
       height: 100%;
     }
 
-    /* 解决 github-markdown.css 和 highlights 引入的 css 的样式冲突问题 */
-    /* https://github.com/sindresorhus/github-markdown-css/issues/52 */
-    /* overwrite */
+    /* 解决 github-markdown.css 和 highlights 引入的 css 的样式冲突问题 
+       https://github.com/sindresorhus/github-markdown-css/issues/52
+       overwrite it
+    */
     .hljs {
-      width: 900px;
+      
       background-color: #23241f !important;
       display: block !important;
       padding: 10px !important;
@@ -67,56 +75,30 @@
       background: #e2e2e2;
     }
   </style>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.8/ace.js" type="text/javascript" charset="utf-8"></script>
-  <script>
-  function runCode(editorId) {
-    let code = ace.edit(editorId).getValue()
-    let handler = window.open('')
-    handler.opener = null
-    handler.document.write(code)
-    handler.document.close()
-  }
-
-  document.onclick = e => {
-    let target = e.target
-    if (target.className !== 'btn-new-page') 
-      return
-
-    runCode(target.parentNode.nextElementSibling.children[0])
-  }
-  </script>
-
-  <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
-  <link href="https://cdn.bootcss.com/highlight.js/9.10.0/styles/monokai-sublime.min.css" rel="stylesheet">
-  <!-- 这个 css 没有用到，需要在包裹元素中加上 .markdown-body 才能 work，但是貌似 github-markdown 应用于 pre code 的样式会和 highlights 的 css 冲突
-  所以我不是很明白应用 github-markdown 后如何渲染代码块 -->
-  <link href="https://cdn.bootcss.com/github-markdown-css/2.9.0/github-markdown.min.css" rel="stylesheet">
-  <script>
-    hljs.initHighlightingOnLoad();
-  </script>
-  <div class="markdown-body"><h2 id="ugly-">ugly 方案</h2>
+</head>
+<body>
+<div class="markdown-body"><h2 id="ugly-">ugly 方案</h2>
 <p>一个很容易想到的方案是多层元素嵌套，这个方案非常不优雅。</p>
 <h2 id="box-shadow-">box-shadow 方案</h2>
 <p>box-shadow 接受第四个参数（扩张半径），通过指定正值或者负值，可以让投影面积增大或者减小。一个正值的扩张半径加上两个为零的偏移量以及为零的模糊值，得到的 “投影” 其实就像一道实线边框。</p>
-
-  <div class="codedog" id="codedog0">
-    <div class="codedog-nav">
-      <button class="btn-new-page">新页面打开</button>
-    </div>
-    <div class="codedog-main">
-      <div id="editor0" class="codedog-editor"></div>
-      <div class="result">
-        <iframe class="preview" frameborder=0></iframe>
-      </div>
+<div class="codedog" id="codedog0">
+  <div class="codedog-nav">
+    <button class="btn-new-page">新页面打开</button>
+  </div>
+  <div class="codedog-main">
+    <div id="editor0" class="codedog-editor"></div>
+    <div class="result">
+      <iframe class="preview" frameborder=0></iframe>
     </div>
   </div>
-  <script>
-    let editor0 = ace.edit("editor0")
-    editor0.$blockScrolling = 1
-    editor0.setTheme("ace/theme/monokai")
-    editor0.getSession().setMode("ace/mode/html")
-    editor0.getSession().setTabSize(2)
-    editor0.getSession().setValue(`<body>
+</div>
+<script>
+  let editor0 = ace.edit("editor0")
+  editor0.$blockScrolling = 1
+  editor0.setTheme("ace/theme/monokai")
+  editor0.getSession().setMode("ace/mode/html")
+  editor0.getSession().setTabSize(2)
+  editor0.getSession().setValue(`<body>
 <style>
   body {
     padding: 20px;
@@ -133,8 +115,8 @@
 <div class="myDiv"></div>
 </body>`)
 
-    let iframe0 = document.querySelector("#codedog0 .preview");
-    iframe0.srcdoc = `<body>
+  let iframe0 = document.querySelector("#codedog0 .preview");
+  iframe0.srcdoc = `<body>
 <style>
   body {
     padding: 20px;
@@ -151,32 +133,30 @@
 <div class="myDiv"></div>
 </body>`
 
-    editor0.getSession().on('change', () => {
-      iframe0.srcdoc =  editor0.getValue()
-    });
-  </script>
-  
+  editor0.getSession().on('change', () => {
+    iframe0.srcdoc =  editor0.getValue()
+  })
+</script>
 <h2 id="outline-">outline 方案</h2>
 <p>在某些情况下，<strong>你可能只需要两层边框</strong>。</p>
-
-  <div class="codedog" id="codedog1">
-    <div class="codedog-nav">
-      <button class="btn-new-page">新页面打开</button>
-    </div>
-    <div class="codedog-main">
-      <div id="editor1" class="codedog-editor"></div>
-      <div class="result">
-        <iframe class="preview" frameborder=0></iframe>
-      </div>
+<div class="codedog" id="codedog1">
+  <div class="codedog-nav">
+    <button class="btn-new-page">新页面打开</button>
+  </div>
+  <div class="codedog-main">
+    <div id="editor1" class="codedog-editor"></div>
+    <div class="result">
+      <iframe class="preview" frameborder=0></iframe>
     </div>
   </div>
-  <script>
-    let editor1 = ace.edit("editor1")
-    editor1.$blockScrolling = 1
-    editor1.setTheme("ace/theme/monokai")
-    editor1.getSession().setMode("ace/mode/html")
-    editor1.getSession().setTabSize(2)
-    editor1.getSession().setValue(`<body>
+</div>
+<script>
+  let editor1 = ace.edit("editor1")
+  editor1.$blockScrolling = 1
+  editor1.setTheme("ace/theme/monokai")
+  editor1.getSession().setMode("ace/mode/html")
+  editor1.getSession().setTabSize(2)
+  editor1.getSession().setValue(`<body>
 <style>
   body {
     padding: 20px;
@@ -193,8 +173,8 @@
 <div class="myDiv"></div>
 </body>`)
 
-    let iframe1 = document.querySelector("#codedog1 .preview");
-    iframe1.srcdoc = `<body>
+  let iframe1 = document.querySelector("#codedog1 .preview");
+  iframe1.srcdoc = `<body>
 <style>
   body {
     padding: 20px;
@@ -211,9 +191,30 @@
 <div class="myDiv"></div>
 </body>`
 
-    editor1.getSession().on('change', () => {
-      iframe1.srcdoc =  editor1.getValue()
-    });
-  </script>
-  
+  editor1.getSession().on('change', () => {
+    iframe1.srcdoc =  editor1.getValue()
+  })
+</script>
 </div>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<script>
+function runCode(editorId) {
+  let code = ace.edit(editorId).getValue()
+  let handler = window.open('')
+  handler.opener = null
+  handler.document.write(code)
+  handler.document.close()
+}
+
+document.onclick = e => {
+  let target = e.target
+  if (target.className !== 'btn-new-page') 
+    return
+
+  runCode(target.parentNode.nextElementSibling.children[0])
+}
+
+hljs.initHighlightingOnLoad()
+</script>
+</body>
+</html>

@@ -1,7 +1,14 @@
-
-  <style type="text/css" media="screen">
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/> -->
+  <title></title>
+  <link href="//cdn.bootcss.com/highlight.js/9.10.0/styles/monokai-sublime.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/github-markdown-css/2.9.0/github-markdown.min.css" rel="stylesheet">
+  <script src="//cdn.bootcss.com/ace/1.3.3/ace.js"></script>
+  <style type="text/css">
     .codedog {
-      width: 900px;
+      
       height: 300px;
       margin-bottom: 16px;
     }
@@ -37,11 +44,12 @@
       height: 100%;
     }
 
-    /* 解决 github-markdown.css 和 highlights 引入的 css 的样式冲突问题 */
-    /* https://github.com/sindresorhus/github-markdown-css/issues/52 */
-    /* overwrite */
+    /* 解决 github-markdown.css 和 highlights 引入的 css 的样式冲突问题 
+       https://github.com/sindresorhus/github-markdown-css/issues/52
+       overwrite it
+    */
     .hljs {
-      width: 900px;
+      
       background-color: #23241f !important;
       display: block !important;
       padding: 10px !important;
@@ -67,53 +75,27 @@
       background: #e2e2e2;
     }
   </style>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.8/ace.js" type="text/javascript" charset="utf-8"></script>
-  <script>
-  function runCode(editorId) {
-    let code = ace.edit(editorId).getValue()
-    let handler = window.open('')
-    handler.opener = null
-    handler.document.write(code)
-    handler.document.close()
-  }
-
-  document.onclick = e => {
-    let target = e.target
-    if (target.className !== 'btn-new-page') 
-      return
-
-    runCode(target.parentNode.nextElementSibling.children[0])
-  }
-  </script>
-
-  <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
-  <link href="https://cdn.bootcss.com/highlight.js/9.10.0/styles/monokai-sublime.min.css" rel="stylesheet">
-  <!-- 这个 css 没有用到，需要在包裹元素中加上 .markdown-body 才能 work，但是貌似 github-markdown 应用于 pre code 的样式会和 highlights 的 css 冲突
-  所以我不是很明白应用 github-markdown 后如何渲染代码块 -->
-  <link href="https://cdn.bootcss.com/github-markdown-css/2.9.0/github-markdown.min.css" rel="stylesheet">
-  <script>
-    hljs.initHighlightingOnLoad();
-  </script>
-  <div class="markdown-body"><h2 id="-">水平条纹</h2>
-
-  <div class="codedog" id="codedog0">
-    <div class="codedog-nav">
-      <button class="btn-new-page">新页面打开</button>
-    </div>
-    <div class="codedog-main">
-      <div id="editor0" class="codedog-editor"></div>
-      <div class="result">
-        <iframe class="preview" frameborder=0></iframe>
-      </div>
+</head>
+<body>
+<div class="markdown-body"><h2 id="-">水平条纹</h2>
+<div class="codedog" id="codedog0">
+  <div class="codedog-nav">
+    <button class="btn-new-page">新页面打开</button>
+  </div>
+  <div class="codedog-main">
+    <div id="editor0" class="codedog-editor"></div>
+    <div class="result">
+      <iframe class="preview" frameborder=0></iframe>
     </div>
   </div>
-  <script>
-    let editor0 = ace.edit("editor0")
-    editor0.$blockScrolling = 1
-    editor0.setTheme("ace/theme/monokai")
-    editor0.getSession().setMode("ace/mode/html")
-    editor0.getSession().setTabSize(2)
-    editor0.getSession().setValue(`<body>
+</div>
+<script>
+  let editor0 = ace.edit("editor0")
+  editor0.$blockScrolling = 1
+  editor0.setTheme("ace/theme/monokai")
+  editor0.getSession().setMode("ace/mode/html")
+  editor0.getSession().setTabSize(2)
+  editor0.getSession().setValue(`<body>
 <style>
   body {
     width: 100vw;
@@ -124,8 +106,8 @@
 </style>
 </body>`)
 
-    let iframe0 = document.querySelector("#codedog0 .preview");
-    iframe0.srcdoc = `<body>
+  let iframe0 = document.querySelector("#codedog0 .preview");
+  iframe0.srcdoc = `<body>
 <style>
   body {
     width: 100vw;
@@ -136,35 +118,33 @@
 </style>
 </body>`
 
-    editor0.getSession().on('change', () => {
-      iframe0.srcdoc =  editor0.getValue()
-    });
-  </script>
-  
+  editor0.getSession().on('change', () => {
+    iframe0.srcdoc =  editor0.getValue()
+  })
+</script>
 <p>每个条纹的高度是 15px。</p>
 <p>为了避免每次改动数值时需要修改两个数字，我们可以再次从规范那里找到捷径：</p>
 <blockquote>
 <p>如果某个色标的位置值比整个列表中在它之前的色标的位置值都要小，则该色标的位置值会被设置为它前面所有色标位置值的最大值。</p>
 </blockquote>
-
-  <div class="codedog" id="codedog1">
-    <div class="codedog-nav">
-      <button class="btn-new-page">新页面打开</button>
-    </div>
-    <div class="codedog-main">
-      <div id="editor1" class="codedog-editor"></div>
-      <div class="result">
-        <iframe class="preview" frameborder=0></iframe>
-      </div>
+<div class="codedog" id="codedog1">
+  <div class="codedog-nav">
+    <button class="btn-new-page">新页面打开</button>
+  </div>
+  <div class="codedog-main">
+    <div id="editor1" class="codedog-editor"></div>
+    <div class="result">
+      <iframe class="preview" frameborder=0></iframe>
     </div>
   </div>
-  <script>
-    let editor1 = ace.edit("editor1")
-    editor1.$blockScrolling = 1
-    editor1.setTheme("ace/theme/monokai")
-    editor1.getSession().setMode("ace/mode/html")
-    editor1.getSession().setTabSize(2)
-    editor1.getSession().setValue(`<body>
+</div>
+<script>
+  let editor1 = ace.edit("editor1")
+  editor1.$blockScrolling = 1
+  editor1.setTheme("ace/theme/monokai")
+  editor1.getSession().setMode("ace/mode/html")
+  editor1.getSession().setTabSize(2)
+  editor1.getSession().setValue(`<body>
 <style>
   body {
     width: 100vw;
@@ -175,8 +155,8 @@
 </style>
 </body>`)
 
-    let iframe1 = document.querySelector("#codedog1 .preview");
-    iframe1.srcdoc = `<body>
+  let iframe1 = document.querySelector("#codedog1 .preview");
+  iframe1.srcdoc = `<body>
 <style>
   body {
     width: 100vw;
@@ -187,31 +167,29 @@
 </style>
 </body>`
 
-    editor1.getSession().on('change', () => {
-      iframe1.srcdoc =  editor1.getValue()
-    });
-  </script>
-  
+  editor1.getSession().on('change', () => {
+    iframe1.srcdoc =  editor1.getValue()
+  })
+</script>
 <h2 id="-">垂直条纹</h2>
-
-  <div class="codedog" id="codedog2">
-    <div class="codedog-nav">
-      <button class="btn-new-page">新页面打开</button>
-    </div>
-    <div class="codedog-main">
-      <div id="editor2" class="codedog-editor"></div>
-      <div class="result">
-        <iframe class="preview" frameborder=0></iframe>
-      </div>
+<div class="codedog" id="codedog2">
+  <div class="codedog-nav">
+    <button class="btn-new-page">新页面打开</button>
+  </div>
+  <div class="codedog-main">
+    <div id="editor2" class="codedog-editor"></div>
+    <div class="result">
+      <iframe class="preview" frameborder=0></iframe>
     </div>
   </div>
-  <script>
-    let editor2 = ace.edit("editor2")
-    editor2.$blockScrolling = 1
-    editor2.setTheme("ace/theme/monokai")
-    editor2.getSession().setMode("ace/mode/html")
-    editor2.getSession().setTabSize(2)
-    editor2.getSession().setValue(`<body>
+</div>
+<script>
+  let editor2 = ace.edit("editor2")
+  editor2.$blockScrolling = 1
+  editor2.setTheme("ace/theme/monokai")
+  editor2.getSession().setMode("ace/mode/html")
+  editor2.getSession().setTabSize(2)
+  editor2.getSession().setValue(`<body>
 <style>
   body {
     width: 100vw;
@@ -222,8 +200,8 @@
 </style>
 </body>`)
 
-    let iframe2 = document.querySelector("#codedog2 .preview");
-    iframe2.srcdoc = `<body>
+  let iframe2 = document.querySelector("#codedog2 .preview");
+  iframe2.srcdoc = `<body>
 <style>
   body {
     width: 100vw;
@@ -234,31 +212,29 @@
 </style>
 </body>`
 
-    editor2.getSession().on('change', () => {
-      iframe2.srcdoc =  editor2.getValue()
-    });
-  </script>
-  
+  editor2.getSession().on('change', () => {
+    iframe2.srcdoc =  editor2.getValue()
+  })
+</script>
 <h2 id="-">斜向条纹</h2>
-
-  <div class="codedog" id="codedog3">
-    <div class="codedog-nav">
-      <button class="btn-new-page">新页面打开</button>
-    </div>
-    <div class="codedog-main">
-      <div id="editor3" class="codedog-editor"></div>
-      <div class="result">
-        <iframe class="preview" frameborder=0></iframe>
-      </div>
+<div class="codedog" id="codedog3">
+  <div class="codedog-nav">
+    <button class="btn-new-page">新页面打开</button>
+  </div>
+  <div class="codedog-main">
+    <div id="editor3" class="codedog-editor"></div>
+    <div class="result">
+      <iframe class="preview" frameborder=0></iframe>
     </div>
   </div>
-  <script>
-    let editor3 = ace.edit("editor3")
-    editor3.$blockScrolling = 1
-    editor3.setTheme("ace/theme/monokai")
-    editor3.getSession().setMode("ace/mode/html")
-    editor3.getSession().setTabSize(2)
-    editor3.getSession().setValue(`<body>
+</div>
+<script>
+  let editor3 = ace.edit("editor3")
+  editor3.$blockScrolling = 1
+  editor3.setTheme("ace/theme/monokai")
+  editor3.getSession().setMode("ace/mode/html")
+  editor3.getSession().setTabSize(2)
+  editor3.getSession().setValue(`<body>
 <style>
   body {
     width: 100vw;
@@ -269,8 +245,8 @@
 </style>
 </body>`)
 
-    let iframe3 = document.querySelector("#codedog3 .preview");
-    iframe3.srcdoc = `<body>
+  let iframe3 = document.querySelector("#codedog3 .preview");
+  iframe3.srcdoc = `<body>
 <style>
   body {
     width: 100vw;
@@ -281,31 +257,29 @@
 </style>
 </body>`
 
-    editor3.getSession().on('change', () => {
-      iframe3.srcdoc =  editor3.getValue()
-    });
-  </script>
-  
+  editor3.getSession().on('change', () => {
+    iframe3.srcdoc =  editor3.getValue()
+  })
+</script>
 <p>这个方法行不通。原因在于 <strong>单个切片需要包含四条条纹</strong>，而不是两条，只有这样才能做到无缝拼接。</p>
-
-  <div class="codedog" id="codedog4">
-    <div class="codedog-nav">
-      <button class="btn-new-page">新页面打开</button>
-    </div>
-    <div class="codedog-main">
-      <div id="editor4" class="codedog-editor"></div>
-      <div class="result">
-        <iframe class="preview" frameborder=0></iframe>
-      </div>
+<div class="codedog" id="codedog4">
+  <div class="codedog-nav">
+    <button class="btn-new-page">新页面打开</button>
+  </div>
+  <div class="codedog-main">
+    <div id="editor4" class="codedog-editor"></div>
+    <div class="result">
+      <iframe class="preview" frameborder=0></iframe>
     </div>
   </div>
-  <script>
-    let editor4 = ace.edit("editor4")
-    editor4.$blockScrolling = 1
-    editor4.setTheme("ace/theme/monokai")
-    editor4.getSession().setMode("ace/mode/html")
-    editor4.getSession().setTabSize(2)
-    editor4.getSession().setValue(`<body>
+</div>
+<script>
+  let editor4 = ace.edit("editor4")
+  editor4.$blockScrolling = 1
+  editor4.setTheme("ace/theme/monokai")
+  editor4.getSession().setMode("ace/mode/html")
+  editor4.getSession().setTabSize(2)
+  editor4.getSession().setValue(`<body>
 <style>
   body {
     width: 100vw;
@@ -318,8 +292,8 @@
 </style>
 </body>`)
 
-    let iframe4 = document.querySelector("#codedog4 .preview");
-    iframe4.srcdoc = `<body>
+  let iframe4 = document.querySelector("#codedog4 .preview");
+  iframe4.srcdoc = `<body>
 <style>
   body {
     width: 100vw;
@@ -332,31 +306,29 @@
 </style>
 </body>`
 
-    editor4.getSession().on('change', () => {
-      iframe4.srcdoc =  editor4.getValue()
-    });
-  </script>
-  
+  editor4.getSession().on('change', () => {
+    iframe4.srcdoc =  editor4.getValue()
+  })
+</script>
 <p>但是这样的结果条纹很明显比之前的细，我们需要设置单个切片的宽度是之前的根号 2 倍。</p>
-
-  <div class="codedog" id="codedog5">
-    <div class="codedog-nav">
-      <button class="btn-new-page">新页面打开</button>
-    </div>
-    <div class="codedog-main">
-      <div id="editor5" class="codedog-editor"></div>
-      <div class="result">
-        <iframe class="preview" frameborder=0></iframe>
-      </div>
+<div class="codedog" id="codedog5">
+  <div class="codedog-nav">
+    <button class="btn-new-page">新页面打开</button>
+  </div>
+  <div class="codedog-main">
+    <div id="editor5" class="codedog-editor"></div>
+    <div class="result">
+      <iframe class="preview" frameborder=0></iframe>
     </div>
   </div>
-  <script>
-    let editor5 = ace.edit("editor5")
-    editor5.$blockScrolling = 1
-    editor5.setTheme("ace/theme/monokai")
-    editor5.getSession().setMode("ace/mode/html")
-    editor5.getSession().setTabSize(2)
-    editor5.getSession().setValue(`<body>
+</div>
+<script>
+  let editor5 = ace.edit("editor5")
+  editor5.$blockScrolling = 1
+  editor5.setTheme("ace/theme/monokai")
+  editor5.getSession().setMode("ace/mode/html")
+  editor5.getSession().setTabSize(2)
+  editor5.getSession().setValue(`<body>
 <style>
   body {
     width: 100vw;
@@ -369,8 +341,8 @@
 </style>
 </body>`)
 
-    let iframe5 = document.querySelector("#codedog5 .preview");
-    iframe5.srcdoc = `<body>
+  let iframe5 = document.querySelector("#codedog5 .preview");
+  iframe5.srcdoc = `<body>
 <style>
   body {
     width: 100vw;
@@ -383,33 +355,31 @@
 </style>
 </body>`
 
-    editor5.getSession().on('change', () => {
-      iframe5.srcdoc =  editor5.getValue()
-    });
-  </script>
-  
+  editor5.getSession().on('change', () => {
+    iframe5.srcdoc =  editor5.getValue()
+  })
+</script>
 <h2 id="-">更好的斜向条纹</h2>
 <p>我们将上面的代码修改角度，会发现条纹完全错乱了。</p>
 <p>幸运的是，我们还有更好的方法来创建斜向条纹。linear-gradient() 和 radial-gradient() 还各有一个循环式的加强版：repeating-linear-gradient() 和 repeating-radial-gradient()。它们的工作方式和前两者类似，只有一点不同：<strong>色标是无限循环重复的，直到填满整个背景</strong>。</p>
-
-  <div class="codedog" id="codedog6">
-    <div class="codedog-nav">
-      <button class="btn-new-page">新页面打开</button>
-    </div>
-    <div class="codedog-main">
-      <div id="editor6" class="codedog-editor"></div>
-      <div class="result">
-        <iframe class="preview" frameborder=0></iframe>
-      </div>
+<div class="codedog" id="codedog6">
+  <div class="codedog-nav">
+    <button class="btn-new-page">新页面打开</button>
+  </div>
+  <div class="codedog-main">
+    <div id="editor6" class="codedog-editor"></div>
+    <div class="result">
+      <iframe class="preview" frameborder=0></iframe>
     </div>
   </div>
-  <script>
-    let editor6 = ace.edit("editor6")
-    editor6.$blockScrolling = 1
-    editor6.setTheme("ace/theme/monokai")
-    editor6.getSession().setMode("ace/mode/html")
-    editor6.getSession().setTabSize(2)
-    editor6.getSession().setValue(`<body>
+</div>
+<script>
+  let editor6 = ace.edit("editor6")
+  editor6.$blockScrolling = 1
+  editor6.setTheme("ace/theme/monokai")
+  editor6.getSession().setMode("ace/mode/html")
+  editor6.getSession().setTabSize(2)
+  editor6.getSession().setValue(`<body>
 <style>
   body {
     width: 100vw;
@@ -420,8 +390,8 @@
 </style>
 </body>`)
 
-    let iframe6 = document.querySelector("#codedog6 .preview");
-    iframe6.srcdoc = `<body>
+  let iframe6 = document.querySelector("#codedog6 .preview");
+  iframe6.srcdoc = `<body>
 <style>
   body {
     width: 100vw;
@@ -432,11 +402,10 @@
 </style>
 </body>`
 
-    editor6.getSession().on('change', () => {
-      iframe6.srcdoc =  editor6.getValue()
-    });
-  </script>
-  
+  editor6.getSession().on('change', () => {
+    iframe6.srcdoc =  editor6.getValue()
+  })
+</script>
 <ul>
 <li>可以随意变换角度</li>
 <li>15px 也是指渐变轴上度量到的距离，再也不用去乘以根号 2 了</li>
@@ -444,25 +413,24 @@
 </ul>
 <h2 id="-">灵活的同色系条纹</h2>
 <p>大多数情况下，我们想要的条纹图案并不是由差异极大的几种颜色组成的，这些颜色往往属于同一色系，只是在明度方面有着轻微的差异。</p>
-
-  <div class="codedog" id="codedog7">
-    <div class="codedog-nav">
-      <button class="btn-new-page">新页面打开</button>
-    </div>
-    <div class="codedog-main">
-      <div id="editor7" class="codedog-editor"></div>
-      <div class="result">
-        <iframe class="preview" frameborder=0></iframe>
-      </div>
+<div class="codedog" id="codedog7">
+  <div class="codedog-nav">
+    <button class="btn-new-page">新页面打开</button>
+  </div>
+  <div class="codedog-main">
+    <div id="editor7" class="codedog-editor"></div>
+    <div class="result">
+      <iframe class="preview" frameborder=0></iframe>
     </div>
   </div>
-  <script>
-    let editor7 = ace.edit("editor7")
-    editor7.$blockScrolling = 1
-    editor7.setTheme("ace/theme/monokai")
-    editor7.getSession().setMode("ace/mode/html")
-    editor7.getSession().setTabSize(2)
-    editor7.getSession().setValue(`<body>
+</div>
+<script>
+  let editor7 = ace.edit("editor7")
+  editor7.$blockScrolling = 1
+  editor7.setTheme("ace/theme/monokai")
+  editor7.getSession().setMode("ace/mode/html")
+  editor7.getSession().setTabSize(2)
+  editor7.getSession().setValue(`<body>
 <style>
   body {
     width: 100vw;
@@ -473,8 +441,8 @@
 </style>
 </body>`)
 
-    let iframe7 = document.querySelector("#codedog7 .preview");
-    iframe7.srcdoc = `<body>
+  let iframe7 = document.querySelector("#codedog7 .preview");
+  iframe7.srcdoc = `<body>
 <style>
   body {
     width: 100vw;
@@ -485,32 +453,30 @@
 </style>
 </body>`
 
-    editor7.getSession().on('change', () => {
-      iframe7.srcdoc =  editor7.getValue()
-    });
-  </script>
-  
+  editor7.getSession().on('change', () => {
+    iframe7.srcdoc =  editor7.getValue()
+  })
+</script>
 <p>条纹是由一个主色调（#58a）和它的浅色变体所组成的。但是，这两种颜色之间的关系在代码中并没有体现出来。如果我们想要改变这个条纹的主色调，甚至需要修改四处！</p>
 <p>幸运的是，还有一种更好的方法：不再为每种条纹单独指定颜色，<strong>而是把最深的颜色指定为背景色</strong>，同时把半透明白色的条纹叠加在背景色之上来得到浅色条纹。</p>
-
-  <div class="codedog" id="codedog8">
-    <div class="codedog-nav">
-      <button class="btn-new-page">新页面打开</button>
-    </div>
-    <div class="codedog-main">
-      <div id="editor8" class="codedog-editor"></div>
-      <div class="result">
-        <iframe class="preview" frameborder=0></iframe>
-      </div>
+<div class="codedog" id="codedog8">
+  <div class="codedog-nav">
+    <button class="btn-new-page">新页面打开</button>
+  </div>
+  <div class="codedog-main">
+    <div id="editor8" class="codedog-editor"></div>
+    <div class="result">
+      <iframe class="preview" frameborder=0></iframe>
     </div>
   </div>
-  <script>
-    let editor8 = ace.edit("editor8")
-    editor8.$blockScrolling = 1
-    editor8.setTheme("ace/theme/monokai")
-    editor8.getSession().setMode("ace/mode/html")
-    editor8.getSession().setTabSize(2)
-    editor8.getSession().setValue(`<body>
+</div>
+<script>
+  let editor8 = ace.edit("editor8")
+  editor8.$blockScrolling = 1
+  editor8.setTheme("ace/theme/monokai")
+  editor8.getSession().setMode("ace/mode/html")
+  editor8.getSession().setTabSize(2)
+  editor8.getSession().setValue(`<body>
 <style>
   body {
     width: 100vw;
@@ -524,8 +490,8 @@
 </style>
 </body>`)
 
-    let iframe8 = document.querySelector("#codedog8 .preview");
-    iframe8.srcdoc = `<body>
+  let iframe8 = document.querySelector("#codedog8 .preview");
+  iframe8.srcdoc = `<body>
 <style>
   body {
     width: 100vw;
@@ -539,9 +505,30 @@
 </style>
 </body>`
 
-    editor8.getSession().on('change', () => {
-      iframe8.srcdoc =  editor8.getValue()
-    });
-  </script>
-  
+  editor8.getSession().on('change', () => {
+    iframe8.srcdoc =  editor8.getValue()
+  })
+</script>
 </div>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<script>
+function runCode(editorId) {
+  let code = ace.edit(editorId).getValue()
+  let handler = window.open('')
+  handler.opener = null
+  handler.document.write(code)
+  handler.document.close()
+}
+
+document.onclick = e => {
+  let target = e.target
+  if (target.className !== 'btn-new-page') 
+    return
+
+  runCode(target.parentNode.nextElementSibling.children[0])
+}
+
+hljs.initHighlightingOnLoad()
+</script>
+</body>
+</html>
