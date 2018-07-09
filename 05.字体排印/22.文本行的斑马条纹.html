@@ -36,8 +36,34 @@
       height: 100%;
     }
 
+    /* 解决 github-markdown.css 和 highlights 引入的 css 的样式冲突问题 */
+    /* https://github.com/sindresorhus/github-markdown-css/issues/52 */
+    /* overwrite */
     .hljs {
       width: 900px;
+      background-color: #23241f !important;
+      display: block !important;
+      padding: 10px !important;
+    }
+
+    .markdown-body pre {
+      background-color: transparent !important;
+      padding-left: 0 !important;
+      margin-bottom: 0 !important;
+    }
+
+    .markdown-body {
+      background: #fff;
+      box-sizing: border-box;
+      min-width: 200px;
+      max-width: 980px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 45px;
+    }
+
+    body {
+      background: #e2e2e2;
     }
   </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.8/ace.js" type="text/javascript" charset="utf-8"></script>
@@ -61,10 +87,13 @@
 
   <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
   <link href="https://cdn.bootcss.com/highlight.js/9.10.0/styles/monokai-sublime.min.css" rel="stylesheet">
-  <!-- 这个 css 没有用到，需要在包裹元素中加上 .markdown-body 才能 work，但是用到代码上的样式会和 ace 的样式冲突 -->
+  <!-- 这个 css 没有用到，需要在包裹元素中加上 .markdown-body 才能 work，但是貌似 github-markdown 应用于 pre code 的样式会和 highlights 的 css 冲突
+  所以我不是很明白应用 github-markdown 后如何渲染代码块 -->
   <link href="https://cdn.bootcss.com/github-markdown-css/2.9.0/github-markdown.min.css" rel="stylesheet">
-  <script>hljs.initHighlightingOnLoad();</script>
-  <p>我们可以用 <code>:nth-child()</code> 或者 <code>:nth-of-type()</code> 等伪类来实现斑马条纹，但是如果 <strong>仅对于文本行</strong>，需要另外加上 div，比较麻烦。</p>
+  <script>
+    hljs.initHighlightingOnLoad();
+  </script>
+  <div class="markdown-body"><p>我们可以用 <code>:nth-child()</code> 或者 <code>:nth-of-type()</code> 等伪类来实现斑马条纹，但是如果 <strong>仅对于文本行</strong>，需要另外加上 div，比较麻烦。</p>
 <p>我们换个思路思考问题，为什么不对整个元素设置统一的背景图像？（参考 05.条纹背景）</p>
 
   <div class="codedog" id="codedog0">
@@ -150,3 +179,4 @@
 <li>修改 line-height 同时需要修改 background-size</li>
 <li>background-origin 使得 background-image &quot;平铺&quot; 在 content-box 中</li>
 </ul>
+</div>

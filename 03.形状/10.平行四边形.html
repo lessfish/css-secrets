@@ -36,8 +36,34 @@
       height: 100%;
     }
 
+    /* 解决 github-markdown.css 和 highlights 引入的 css 的样式冲突问题 */
+    /* https://github.com/sindresorhus/github-markdown-css/issues/52 */
+    /* overwrite */
     .hljs {
       width: 900px;
+      background-color: #23241f !important;
+      display: block !important;
+      padding: 10px !important;
+    }
+
+    .markdown-body pre {
+      background-color: transparent !important;
+      padding-left: 0 !important;
+      margin-bottom: 0 !important;
+    }
+
+    .markdown-body {
+      background: #fff;
+      box-sizing: border-box;
+      min-width: 200px;
+      max-width: 980px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 45px;
+    }
+
+    body {
+      background: #e2e2e2;
     }
   </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.8/ace.js" type="text/javascript" charset="utf-8"></script>
@@ -61,10 +87,13 @@
 
   <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
   <link href="https://cdn.bootcss.com/highlight.js/9.10.0/styles/monokai-sublime.min.css" rel="stylesheet">
-  <!-- 这个 css 没有用到，需要在包裹元素中加上 .markdown-body 才能 work，但是用到代码上的样式会和 ace 的样式冲突 -->
+  <!-- 这个 css 没有用到，需要在包裹元素中加上 .markdown-body 才能 work，但是貌似 github-markdown 应用于 pre code 的样式会和 highlights 的 css 冲突
+  所以我不是很明白应用 github-markdown 后如何渲染代码块 -->
   <link href="https://cdn.bootcss.com/github-markdown-css/2.9.0/github-markdown.min.css" rel="stylesheet">
-  <script>hljs.initHighlightingOnLoad();</script>
-  <h2 id="-">难题</h2>
+  <script>
+    hljs.initHighlightingOnLoad();
+  </script>
+  <div class="markdown-body"><h2 id="-">难题</h2>
 <p>对元素应用 <code>transform: skewX(45deg)</code> 后，虽然得到了一个平行四边形，<strong>但是会导致它的内容也倾向变形</strong>。如何使得只让容器的形状倾斜，而保持内容不变？</p>
 <h2 id="-">嵌套元素方案</h2>
 <p>我们可以对内容再应用一次反向的 skew() 变形，从而抵消容器的变形效果。但是我们不得不使用一层额外的 HTML 元素来包裹内容，比如用一个 div：</p>
@@ -246,3 +275,4 @@
   
 <p>这个技巧不仅对 skew() 变形来说很有用，<strong>还适用于其他任何变形样式</strong>，当我们想 <strong>变形一个元素而不想变形它的内容时</strong> 就可以用到它。</p>
 <p>这个技巧的关键在于，我们利用伪元素以及定位属性产生一个方块，然后对伪元素设置样式，并将其放置在其宿主元素的下层。</p>
+</div>
