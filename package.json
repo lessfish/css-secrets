@@ -1,5 +1,15 @@
 {
   "devDependencies": {
-    "shelljs": "^0.7.8"
+    "browser-sync": "^2.18.13",
+    "codedog": "^2.0.4",
+    "gulp": "^3.9.1",
+    "gulp-changed": "^3.2.0",
+    "marked": "^0.5.2",
+    "shelljs": "^0.8.3",
+    "through2": "^3.0.0"
+  },
+  "scripts": {
+    "dev": "gulp",
+    "build": "gulp compileAll"
   }
 }
