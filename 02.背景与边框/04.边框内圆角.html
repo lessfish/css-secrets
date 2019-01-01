@@ -2,9 +2,10 @@
 <html>
 <head>
   <!-- <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/> -->
-  <title></title>
+  <title>边框内圆角</title>
   <link href="//cdn.bootcss.com/highlight.js/9.10.0/styles/monokai-sublime.min.css" rel="stylesheet">
   <link href="//cdn.bootcss.com/github-markdown-css/2.9.0/github-markdown.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/normalize/8.0.0/normalize.min.css" rel="stylesheet">
   <script src="//cdn.bootcss.com/ace/1.3.3/ace.js"></script>
   <style type="text/css">
     .codedog {
@@ -35,7 +36,7 @@
       width: 50%;
       height: 100%;
       float: left;
-      border: 1px solid #000;
+      border: 1px solid #999;
       box-sizing: border-box;
     }
 
@@ -44,21 +45,16 @@
       height: 100%;
     }
 
-    /* 解决 github-markdown.css 和 highlights 引入的 css 的样式冲突问题 
-       https://github.com/sindresorhus/github-markdown-css/issues/52
-       overwrite it
+    /* 
+      解决 github-markdown.css 和 highlights 引入的 css 的样式冲突问题 
+      https://github.com/sindresorhus/github-markdown-css/issues/52
+      overwrite it
     */
     .hljs {
       
       background-color: #23241f !important;
       display: block !important;
       padding: 10px !important;
-    }
-
-    .markdown-body pre {
-      background-color: transparent !important;
-      padding-left: 0 !important;
-      margin-bottom: 0 !important;
     }
 
     .markdown-body {
@@ -69,15 +65,45 @@
       width: 100%;
       margin: 0 auto;
       padding: 45px;
+      flex: 1;
     }
 
+    .markdown-body pre {
+      background-color: transparent !important;
+      padding-left: 0 !important;
+      margin-bottom: 0 !important;
+    }
+
+    .markdown-body img {
+      zoom: 0.5;
+    }
+    
     body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      margin: 0;
+      padding: 10px 10px 0 10px;
+      box-sizing: border-box;
       background: #e2e2e2;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 10px;
+    }
+
+    .footer > a {
+      color: #2c3e50;
     }
   </style>
 </head>
 <body>
-<div class="markdown-body"><h2 id="-">两个元素嵌套</h2>
+<div class="markdown-body"><h1 id="-">边框内圆角</h1>
+<h2 id="-">难题</h2>
+<p>有时候我们需要一个容器，只在内侧有圆角，而边框或描边的四个角在外部仍然保持直角的形状</p>
+<h2 id="-">两个元素嵌套</h2>
+<p>用两个元素嵌套很容易实现这个效果：</p>
 <div class="codedog" id="codedog0">
   <div class="codedog-nav">
     <button class="btn-new-page">新页面打开</button>
@@ -97,21 +123,16 @@
   editor0.getSession().setTabSize(2)
   editor0.getSession().setValue(`<body>
 <style>
-  * {
-    box-sizing: border-box;
-  }
-
   .wrapper {
-    width: 100px;
-    height: 50px;
+    width: 10em;
     background: #655;
-    padding: .8em;
+    padding: .4em;
   }
 
   .inner {
     background: tan;
-    border-radius: 10px; 
-    padding: 15px;
+    border-radius: .8em;
+    padding: 1em;
   }
 </style>  
 <div class="wrapper">
@@ -122,30 +143,25 @@
   let iframe0 = document.querySelector("#codedog0 .preview");
   iframe0.srcdoc = `<body>
 <style>
-  * {
-    box-sizing: border-box;
-  }
-
   .wrapper {
-    width: 100px;
-    height: 50px;
+    width: 10em;
     background: #655;
-    padding: .8em;
+    padding: .4em;
   }
 
   .inner {
     background: tan;
-    border-radius: 10px; 
-    padding: 15px;
+    border-radius: .8em;
+    padding: 1em;
   }
 </style>  
 <div class="wrapper">
   <div class="inner"></div>  
 </div>
-</body>`
+</body>` + '<style>body{margin:0; padding:0; height:100vh}</style>'
 
   editor0.getSession().on('change', () => {
-    iframe0.srcdoc =  editor0.getValue()
+    iframe0.srcdoc = editor0.getValue() + '<style>body{margin:0; padding:0; height:100vh}</style>'
   })
 </script>
 <h2 id="-">更优雅的方案</h2>
@@ -168,40 +184,46 @@
   editor1.getSession().setTabSize(2)
   editor1.getSession().setValue(`<body>
 <style>
-  .myDiv {
-    height: 50px;
-    width: 100px;
-    background: red;
+  /* 防止元素超过边界 */
+  body {padding: 10px !important;}
+
+  .box {
+    width: 10em;
+    padding: 1em;
+    background: tan;
     border-radius: .8em; 
     box-shadow: 0 0 0 .6em #655; 
     outline: .6em solid #655;
   }
 </style>  
-<div class="myDiv"></div>
+<div class="box"></div>
 </body>`)
 
   let iframe1 = document.querySelector("#codedog1 .preview");
   iframe1.srcdoc = `<body>
 <style>
-  .myDiv {
-    height: 50px;
-    width: 100px;
-    background: red;
+  /* 防止元素超过边界 */
+  body {padding: 10px !important;}
+
+  .box {
+    width: 10em;
+    padding: 1em;
+    background: tan;
     border-radius: .8em; 
     box-shadow: 0 0 0 .6em #655; 
     outline: .6em solid #655;
   }
 </style>  
-<div class="myDiv"></div>
-</body>`
+<div class="box"></div>
+</body>` + '<style>body{margin:0; padding:0; height:100vh}</style>'
 
   editor1.getSession().on('change', () => {
-    iframe1.srcdoc =  editor1.getValue()
+    iframe1.srcdoc = editor1.getValue() + '<style>body{margin:0; padding:0; height:100vh}</style>'
   })
 </script>
 <p>我们基本受益于两个事实，描边（outline）并不会跟着元素的圆角走（因而显示出直角），但是 box-shadow 却是会的。因此，如果我们把这两者叠加到一起，box-shadow 会刚好填补描边和容器圆角之间的空隙。</p>
-<p>事实上，指定一个等于描边宽度的扩张值可能会得到异常渲染（目前在 chrome 中也是一样），因此推荐一个更小的值，那么，这个值是？</p>
-<p>其实，我们需要满足 (根号2-1)*r &lt;= 扩张半径 &lt;= 描边宽度，这意味着，如果描边的宽度比 (根号2-1)*r 小，那我们是不可能用这个方法达成效果的。根号2 -1 约等于 0.414，<strong>如果可以的话，我们可以将扩张半径取值为 border-radius 的一半</strong>。</p>
+<p>事实上，指定一个等于描边宽度的扩张值可能会得到异常渲染（目前在 chrome 71 中也是一样，以上 demo 仔细看），因此推荐一个更小的值，那么，这个值是？</p>
+<p>事实上，我们需要满足 \((\sqrt2-1)*r\)（r 表示 border-radius）&lt; 扩张半径（box-shadow） &lt; 描边宽度（outline）（但是，扩张半径需要比描边宽度至少小多少呢？我测试了下，可能并没有准确的答案），这意味着，<strong>如果描边的宽度比 \((\sqrt2-1)*r\) 小，那我们是不可能用这个方法达成效果</strong>。\((\sqrt2-1)\) 约等于 0.414，<strong>如果可以的话，我们可以将扩张半径取值为 border-radius 的一半</strong>。</p>
 <div class="codedog" id="codedog2">
   <div class="codedog-nav">
     <button class="btn-new-page">新页面打开</button>
@@ -221,42 +243,51 @@
   editor2.getSession().setTabSize(2)
   editor2.getSession().setValue(`<body>
 <style>
-  .myDiv {
-    height: 50px;
-    width: 100px;
-    background: red;
+  /* 防止元素超过边界 */
+  body {padding: 10px !important;}
+
+  .box {
+    width: 10em;
+    padding: 1em;
+    background: tan;
     border-radius: .8em; 
     box-shadow: 0 0 0 .4em #655; 
     outline: .6em solid #655;
   }
 </style>  
-<div class="myDiv"></div>
+<div class="box"></div>
 </body>`)
 
   let iframe2 = document.querySelector("#codedog2 .preview");
   iframe2.srcdoc = `<body>
 <style>
-  .myDiv {
-    height: 50px;
-    width: 100px;
-    background: red;
+  /* 防止元素超过边界 */
+  body {padding: 10px !important;}
+
+  .box {
+    width: 10em;
+    padding: 1em;
+    background: tan;
     border-radius: .8em; 
     box-shadow: 0 0 0 .4em #655; 
     outline: .6em solid #655;
   }
 </style>  
-<div class="myDiv"></div>
-</body>`
+<div class="box"></div>
+</body>` + '<style>body{margin:0; padding:0; height:100vh}</style>'
 
   editor2.getSession().on('change', () => {
-    iframe2.srcdoc =  editor2.getValue()
+    iframe2.srcdoc = editor2.getValue() + '<style>body{margin:0; padding:0; height:100vh}</style>'
   })
 </script>
+<p>我们再次强调一遍，该方案的实现完全依赖于 <strong>描边不跟着圆角走这个事实</strong>，但是未来的 CSS 规范明确地建议描边跟着圆角走，我们拭目以待</p>
 </div>
+<div class="footer">Powered by <a href="//github.com/hanzichi/codedog">codedog</a></div>
 <script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="//cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=default"></script>
 <script>
 function runCode(editorId) {
-  let code = ace.edit(editorId).getValue()
+  let code = ace.edit(editorId).getValue() + '<style>body{margin:0; padding:0; height:100vh}</style>'
   let handler = window.open('')
   handler.opener = null
   handler.document.write(code)

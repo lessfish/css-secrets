@@ -2,9 +2,10 @@
 <html>
 <head>
   <!-- <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/> -->
-  <title></title>
+  <title>半透明边框</title>
   <link href="//cdn.bootcss.com/highlight.js/9.10.0/styles/monokai-sublime.min.css" rel="stylesheet">
   <link href="//cdn.bootcss.com/github-markdown-css/2.9.0/github-markdown.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/normalize/8.0.0/normalize.min.css" rel="stylesheet">
   <script src="//cdn.bootcss.com/ace/1.3.3/ace.js"></script>
   <style type="text/css">
     .codedog {
@@ -35,7 +36,7 @@
       width: 50%;
       height: 100%;
       float: left;
-      border: 1px solid #000;
+      border: 1px solid #999;
       box-sizing: border-box;
     }
 
@@ -44,21 +45,16 @@
       height: 100%;
     }
 
-    /* 解决 github-markdown.css 和 highlights 引入的 css 的样式冲突问题 
-       https://github.com/sindresorhus/github-markdown-css/issues/52
-       overwrite it
+    /* 
+      解决 github-markdown.css 和 highlights 引入的 css 的样式冲突问题 
+      https://github.com/sindresorhus/github-markdown-css/issues/52
+      overwrite it
     */
     .hljs {
       
       background-color: #23241f !important;
       display: block !important;
       padding: 10px !important;
-    }
-
-    .markdown-body pre {
-      background-color: transparent !important;
-      padding-left: 0 !important;
-      margin-bottom: 0 !important;
     }
 
     .markdown-body {
@@ -69,15 +65,43 @@
       width: 100%;
       margin: 0 auto;
       padding: 45px;
+      flex: 1;
     }
 
+    .markdown-body pre {
+      background-color: transparent !important;
+      padding-left: 0 !important;
+      margin-bottom: 0 !important;
+    }
+
+    .markdown-body img {
+      zoom: 0.5;
+    }
+    
     body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      margin: 0;
+      padding: 10px 10px 0 10px;
+      box-sizing: border-box;
       background: #e2e2e2;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 10px;
+    }
+
+    .footer > a {
+      color: #2c3e50;
     }
   </style>
 </head>
 <body>
-<div class="markdown-body"><div class="codedog" id="codedog0">
+<div class="markdown-body"><h1 id="-">半透明边框</h1>
+<h2 id="-">难题</h2>
+<div class="codedog" id="codedog0">
   <div class="codedog-nav">
     <button class="btn-new-page">新页面打开</button>
   </div>
@@ -97,21 +121,27 @@
   editor0.getSession().setValue(`<body>
 <style>
   .wrapper {
-    position: relative;
+    width: 100px;
+    height: 100px;
+    background: url(https://avatars2.githubusercontent.com/u/10890665);
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .inner {
     width: 50px;
     height: 50px;
-    position: absolute;
-    top: 20px;
-    left: 15px;
     background: white;
-    border: 10px solid hsla(0, 0%, 100%, .5);
+  }
+
+  /*important*/
+  .inner {
+    border: 10px solid rgba(255, 255, 255, .5)
   }
 </style>  
 <div class="wrapper">
-  <img width=100 height=100 src="https://avatars2.githubusercontent.com/u/10890665" />
   <div class="inner"></div>
 </div>
 </body>`)
@@ -120,31 +150,37 @@
   iframe0.srcdoc = `<body>
 <style>
   .wrapper {
-    position: relative;
+    width: 100px;
+    height: 100px;
+    background: url(https://avatars2.githubusercontent.com/u/10890665);
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .inner {
     width: 50px;
     height: 50px;
-    position: absolute;
-    top: 20px;
-    left: 15px;
     background: white;
-    border: 10px solid hsla(0, 0%, 100%, .5);
+  }
+
+  /*important*/
+  .inner {
+    border: 10px solid rgba(255, 255, 255, .5)
   }
 </style>  
 <div class="wrapper">
-  <img width=100 height=100 src="https://avatars2.githubusercontent.com/u/10890665" />
   <div class="inner"></div>
 </div>
-</body>`
+</body>` + '<style>body{margin:0; padding:0; height:100vh}</style>'
 
   editor0.getSession().on('change', () => {
-    iframe0.srcdoc =  editor0.getValue()
+    iframe0.srcdoc = editor0.getValue() + '<style>body{margin:0; padding:0; height:100vh}</style>'
   })
 </script>
-<p>尽管我们给边框设置了半透明效果，但是背景图并没有透过来。这是因为 <strong>半透明边框透出了这个容器自己的纯白色背景</strong>，这实际上得到的效果跟纯白实色的边框看起来完全一样。</p>
-<p>CSS3 起，我们可以通过设置 background-clip 属性来调整上述默认行为所带来的不便。这个属性的初始值是 border-box，意味着 <strong>背景会被元素的 border box（边框的外沿框）裁减掉</strong>。如果不希望背景侵入边框所在的范围，我们要做的就是把它的值设为 padding-box。</p>
+<p>demo 很简单，白色背景的 div 大小 50*50px，然后给他加了 10px 的半透明边框，我们希望背景图能够透过来，但是事与愿违，我们看到的白色矩形实际上是 70*70px。这是因为 <strong>半透明边框透出了这个容器自己的纯白色背景</strong>。</p>
+<p>默认状态下，背景会延伸到边框的区域下层：</p>
 <div class="codedog" id="codedog1">
   <div class="codedog-nav">
     <button class="btn-new-page">新页面打开</button>
@@ -164,60 +200,171 @@
   editor1.getSession().setTabSize(2)
   editor1.getSession().setValue(`<body>
 <style>
-  .wrapper {
-    position: relative;
-  }
-
-  .inner {
-    width: 50px;
-    height: 50px;
-    position: absolute;
-    top: 20px;
-    left: 15px;
-    background: white;
-    border: 10px solid hsla(0, 0%, 100%, .5);
-    background-clip: padding-box;
+  .box {
+    width: 100px;
+    height: 100px;
+    background: green;
+    border: 10px dashed red;
   }
 </style>  
-<div class="wrapper">
-  <img width=100 height=100 src="https://avatars2.githubusercontent.com/u/10890665" />
-  <div class="inner"></div>
-</div>
+<div class="box"></div>
 </body>`)
 
   let iframe1 = document.querySelector("#codedog1 .preview");
   iframe1.srcdoc = `<body>
 <style>
+  .box {
+    width: 100px;
+    height: 100px;
+    background: green;
+    border: 10px dashed red;
+  }
+</style>  
+<div class="box"></div>
+</body>` + '<style>body{margin:0; padding:0; height:100vh}</style>'
+
+  editor1.getSession().on('change', () => {
+    iframe1.srcdoc = editor1.getValue() + '<style>body{margin:0; padding:0; height:100vh}</style>'
+  })
+</script>
+<p>这里的理解我之前有个误区，并不是边框设置了带透明度的颜色，背景就会透上来，<strong>而是背景和边框用了一个颜色</strong>，然后边框又设置了透明度，背景才会透上来。比如上面的 demo 我边框换个颜色 <code>rgba(125, 255, 255, .5)</code>，就没有什么问题了（所以感觉实际生产中很少碰到这个问题）</p>
+<h2 id="-">解决方案</h2>
+<p>CSS3 起，我们可以通过设置 background-clip 属性来调整上述默认行为所带来的不便。这个属性的初始值是 border-box，意味着 <strong>背景会被元素的 border box（边框的外沿框）裁减掉</strong>。如果不希望背景侵入边框所在的范围，我们要做的就是把它的值设为 padding-box。</p>
+<div class="codedog" id="codedog2">
+  <div class="codedog-nav">
+    <button class="btn-new-page">新页面打开</button>
+  </div>
+  <div class="codedog-main">
+    <div id="editor2" class="codedog-editor"></div>
+    <div class="result">
+      <iframe class="preview" frameborder=0></iframe>
+    </div>
+  </div>
+</div>
+<script>
+  let editor2 = ace.edit("editor2")
+  editor2.$blockScrolling = 1
+  editor2.setTheme("ace/theme/monokai")
+  editor2.getSession().setMode("ace/mode/html")
+  editor2.getSession().setTabSize(2)
+  editor2.getSession().setValue(`<body>
+<style>
+  .box {
+    width: 100px;
+    height: 100px;
+    background: green;
+    border: 10px dashed red;
+    background-clip: padding-box
+  }
+</style>  
+<div class="box"></div>
+</body>`)
+
+  let iframe2 = document.querySelector("#codedog2 .preview");
+  iframe2.srcdoc = `<body>
+<style>
+  .box {
+    width: 100px;
+    height: 100px;
+    background: green;
+    border: 10px dashed red;
+    background-clip: padding-box
+  }
+</style>  
+<div class="box"></div>
+</body>` + '<style>body{margin:0; padding:0; height:100vh}</style>'
+
+  editor2.getSession().on('change', () => {
+    iframe2.srcdoc = editor2.getValue() + '<style>body{margin:0; padding:0; height:100vh}</style>'
+  })
+</script>
+<div class="codedog" id="codedog3">
+  <div class="codedog-nav">
+    <button class="btn-new-page">新页面打开</button>
+  </div>
+  <div class="codedog-main">
+    <div id="editor3" class="codedog-editor"></div>
+    <div class="result">
+      <iframe class="preview" frameborder=0></iframe>
+    </div>
+  </div>
+</div>
+<script>
+  let editor3 = ace.edit("editor3")
+  editor3.$blockScrolling = 1
+  editor3.setTheme("ace/theme/monokai")
+  editor3.getSession().setMode("ace/mode/html")
+  editor3.getSession().setTabSize(2)
+  editor3.getSession().setValue(`<body>
+<style>
   .wrapper {
-    position: relative;
+    width: 100px;
+    height: 100px;
+    background: url(https://avatars2.githubusercontent.com/u/10890665);
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .inner {
     width: 50px;
     height: 50px;
-    position: absolute;
-    top: 20px;
-    left: 15px;
     background: white;
-    border: 10px solid hsla(0, 0%, 100%, .5);
+  }
+
+  /*important*/
+  .inner {
+    border: 10px solid rgba(255, 255, 255, .5);
     background-clip: padding-box;
   }
 </style>  
 <div class="wrapper">
-  <img width=100 height=100 src="https://avatars2.githubusercontent.com/u/10890665" />
   <div class="inner"></div>
 </div>
-</body>`
+</body>`)
 
-  editor1.getSession().on('change', () => {
-    iframe1.srcdoc =  editor1.getValue()
+  let iframe3 = document.querySelector("#codedog3 .preview");
+  iframe3.srcdoc = `<body>
+<style>
+  .wrapper {
+    width: 100px;
+    height: 100px;
+    background: url(https://avatars2.githubusercontent.com/u/10890665);
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .inner {
+    width: 50px;
+    height: 50px;
+    background: white;
+  }
+
+  /*important*/
+  .inner {
+    border: 10px solid rgba(255, 255, 255, .5);
+    background-clip: padding-box;
+  }
+</style>  
+<div class="wrapper">
+  <div class="inner"></div>
+</div>
+</body>` + '<style>body{margin:0; padding:0; height:100vh}</style>'
+
+  editor3.getSession().on('change', () => {
+    iframe3.srcdoc = editor3.getValue() + '<style>body{margin:0; padding:0; height:100vh}</style>'
   })
 </script>
 </div>
+<div class="footer">Powered by <a href="//github.com/hanzichi/codedog">codedog</a></div>
 <script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="//cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=default"></script>
 <script>
 function runCode(editorId) {
-  let code = ace.edit(editorId).getValue()
+  let code = ace.edit(editorId).getValue() + '<style>body{margin:0; padding:0; height:100vh}</style>'
   let handler = window.open('')
   handler.opener = null
   handler.document.write(code)
