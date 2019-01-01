@@ -7,7 +7,7 @@ const shelljs = require('shelljs')
 // 全部文件重新编译
 gulp.task("compileAll", () => {
   shelljs.exec('node generate_md.js', () => {
-    return gulp.src(["./**/*.md", "!README.md"])
+    return gulp.src(["./**/*.md", "!README.md", "!DOC.md"])
       .pipe(codedog())
       .pipe(gulp.dest("./"))
   })
@@ -15,7 +15,7 @@ gulp.task("compileAll", () => {
 
 // 增量编译
 gulp.task("compile", () => {
-  return gulp.src("./**/*.md")
+  return gulp.src(["./**/*.md", "!README.md", "!DOC.md"])
     .pipe(changed("./", {  // dest 参数需要和 gulp.dest 中的参数保持一致
       extension: '.html'  // 如果源文件和生成文件的后缀不同，这一行不能忘
     }))

@@ -68,7 +68,13 @@ function generateMarkdown(res) {
     markdownStr += '\n'
   })
 
-  const htmlStr = marked(markdownStr)
+  let htmlStr = marked(markdownStr)
+
+  // 新标签打开
+  htmlStr += `
+  <script>document.querySelectorAll('a').forEach(item => { item.setAttribute('target', '_blank') })</script>
+  `
+
   fs.writeFile('index.html', htmlStr, () => {
     console.log('index.html saved!')
   })
