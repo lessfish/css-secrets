@@ -24,15 +24,18 @@
 
 ## 05.字体排印
 
+- [20.连字符断行](//hanzichi.github.io/css-secrets/05.%E5%AD%97%E4%BD%93%E6%8E%92%E5%8D%B0/20.%E8%BF%9E%E5%AD%97%E7%AC%A6%E6%96%AD%E8%A1%8C.html)
 - [21.插入换行](//hanzichi.github.io/css-secrets/05.%E5%AD%97%E4%BD%93%E6%8E%92%E5%8D%B0/21.%E6%8F%92%E5%85%A5%E6%8D%A2%E8%A1%8C.html)
 - [22.文本行的斑马条纹](//hanzichi.github.io/css-secrets/05.%E5%AD%97%E4%BD%93%E6%8E%92%E5%8D%B0/22.%E6%96%87%E6%9C%AC%E8%A1%8C%E7%9A%84%E6%96%91%E9%A9%AC%E6%9D%A1%E7%BA%B9.html)
 - [23.调整 tab 的宽度](//hanzichi.github.io/css-secrets/05.%E5%AD%97%E4%BD%93%E6%8E%92%E5%8D%B0/23.%E8%B0%83%E6%95%B4%20tab%20%E7%9A%84%E5%AE%BD%E5%BA%A6.html)
+- [24.连字](//hanzichi.github.io/css-secrets/05.%E5%AD%97%E4%BD%93%E6%8E%92%E5%8D%B0/24.%E8%BF%9E%E5%AD%97.html)
 
 ## 06.用户体验
 
 - [29.选用合适的鼠标光标](//hanzichi.github.io/css-secrets/06.%E7%94%A8%E6%88%B7%E4%BD%93%E9%AA%8C/29.%E9%80%89%E7%94%A8%E5%90%88%E9%80%82%E7%9A%84%E9%BC%A0%E6%A0%87%E5%85%89%E6%A0%87.html)
 - [30.扩大可点击区域](//hanzichi.github.io/css-secrets/06.%E7%94%A8%E6%88%B7%E4%BD%93%E9%AA%8C/30.%E6%89%A9%E5%A4%A7%E5%8F%AF%E7%82%B9%E5%87%BB%E5%8C%BA%E5%9F%9F.html)
 - [31.自定义复选框](//hanzichi.github.io/css-secrets/06.%E7%94%A8%E6%88%B7%E4%BD%93%E9%AA%8C/31.%E8%87%AA%E5%AE%9A%E4%B9%89%E5%A4%8D%E9%80%89%E6%A1%86.html)
+- [32.通过阴影来弱化背景](//hanzichi.github.io/css-secrets/06.%E7%94%A8%E6%88%B7%E4%BD%93%E9%AA%8C/32.%E9%80%9A%E8%BF%87%E9%98%B4%E5%BD%B1%E6%9D%A5%E5%BC%B1%E5%8C%96%E8%83%8C%E6%99%AF.html)
 
 ## 07.结构与布局
 
@@ -42,3 +45,8 @@
 - [40.垂直居中](//hanzichi.github.io/css-secrets/07.%E7%BB%93%E6%9E%84%E4%B8%8E%E5%B8%83%E5%B1%80/40.%E5%9E%82%E7%9B%B4%E5%B1%85%E4%B8%AD.html)
 - [41.紧贴底部的页脚](//hanzichi.github.io/css-secrets/07.%E7%BB%93%E6%9E%84%E4%B8%8E%E5%B8%83%E5%B1%80/41.%E7%B4%A7%E8%B4%B4%E5%BA%95%E9%83%A8%E7%9A%84%E9%A1%B5%E8%84%9A.html)
 
+---
+
+一点思考：
+
+- html 文件放到 GitHub 的 CI 中去生成去跑去生成？本地的 ignore 掉？
