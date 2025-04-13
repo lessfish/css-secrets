@@ -1,82 +1,88 @@
-const fs = require('fs')
-const path = require('path')
+const fs = require("fs");
+const path = require("path");
 
 function readRootDir() {
-  return new Promise(resolve => {
-    fs.readdir('./', (err, files) => {
-      resolve(files)
-    })
-  })
+  return new Promise((resolve) => {
+    fs.readdir("./", (err, files) => {
+      resolve(files);
+    });
+  });
 }
 
 function getPromiseArr(files) {
-  const promiseArr = []
+  const promiseArr = [];
 
   // 遍历章
-  files.forEach(file => {
+  files.forEach((file) => {
     // 排除 node_modules 和 .git 两个文件夹的干扰
-    if (file === 'node_modules' || file === '.git') return
+    if (file === "node_modules" || file === ".git") return;
 
-    let path1 = path.join(__dirname, file)
-    let stats = fs.statSync(path1)
+    let path1 = path.join(__dirname, file);
+    let stats = fs.statSync(path1);
 
     // 排除类似 generate.js package.json 等文件的干扰
-    if (!stats.isDirectory()) return 
-    
-    promiseArr.push(new Promise(resolve => {
-      const chapter = {
-        chapterName: file, // 章节名
-        sections: [] // 子章节名
-      }
+    if (!stats.isDirectory()) return;
 
-      fs.readdir(path1, (err, files) => {
-        // 遍历节
-        files.forEach(file => {
-          if (!file.endsWith('.html')) return
-          chapter.sections.push(file)
-        })
+    promiseArr.push(
+      new Promise((resolve) => {
+        const chapter = {
+          chapterName: file, // 章节名
+          sections: [], // 子章节名
+        };
 
-        resolve(chapter)
+        fs.readdir(path1, (err, files) => {
+          // 遍历节
+          files.forEach((file) => {
+            if (!file.endsWith(".html")) return;
+            chapter.sections.push(file);
+          });
+
+          resolve(chapter);
+        });
       })
-    }))
-  })
+    );
+  });
 
-  return promiseArr
+  return promiseArr;
 }
 
 function generateMarkdown(res) {
-  res.sort((a, b) => a.chapterName > b.chapterName)
-  
-  let markdownStr = ''
-  let urlPrefix = `//hanzichi.github.io/css-secrets/`
+  res.sort((a, b) => a.chapterName > b.chapterName);
 
-  markdownStr += `# CSS SECRETS\n\n`
+  let markdownStr = "";
+  let urlPrefix = `//lessfish.github.io/css-secrets/`;
 
-  res.forEach(chapter => {
-    let {chapterName, sections} = chapter
+  markdownStr += `# CSS SECRETS\n\n`;
 
-    markdownStr += `## ${chapterName}\n\n`
-    sections.sort()
+  res.forEach((chapter) => {
+    let { chapterName, sections } = chapter;
 
-    sections.forEach(sectionName => {
-      let url = urlPrefix + chapterName + '/' + sectionName
-      url = encodeURI(url)
-      markdownStr += `- [${sectionName.replace('.html', '')}](${url})\n`
-    })
+    markdownStr += `## ${chapterName}\n\n`;
+    sections.sort();
 
-    markdownStr += '\n'
-  })
+    sections.forEach((sectionName) => {
+      let url = urlPrefix + chapterName + "/" + sectionName;
+      url = encodeURI(url);
+      markdownStr += `- [${sectionName.replace(".html", "")}](${url})\n`;
+    });
 
-  fs.writeFile('README.md', markdownStr, () => {
-    console.log('README.md saved!')
-  })
+    markdownStr += "\n";
+  });
+
+  fs.writeFile("README.md", markdownStr, () => {
+    console.log("README.md saved!");
+  });
 }
 
-(async function() {
-  const files = await readRootDir()
-  const promiseArr = getPromiseArr(files)
+(async function () {
+  const files = await readRootDir();
+  const promiseArr = getPromiseArr(files);
 
-  Promise.all(promiseArr).then(res => {
-    generateMarkdown(res)
-  }).catch((err) => {console.log(err)})
-})()
+  Promise.all(promiseArr)
+    .then((res) => {
+      generateMarkdown(res);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+})();
